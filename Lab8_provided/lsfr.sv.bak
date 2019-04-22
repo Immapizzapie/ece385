@@ -1,0 +1,19 @@
+module lfsr (
+  input  logic        clk_i,
+  input  logic        rst_i,
+  output logic [31:0] rand_o
+);
+
+  logic[31:0] lfsr_value;
+
+  assign rand_o = lfsr_value;
+
+  always_ff @(posedge clk_i, negedge rst_i) begin
+    if(~rst_i) begin
+      lfsr_value <= '0;
+    end else begin
+      lfsr_value[31:1] <= lfsr_value[30:0];
+      lfsr_value[0]    <= ~(lfsr_value[31] ^ lfsr_value[21] ^ lfsr_value[1] ^ lfsr_value[0]);
+    end
+  end
+endmodule

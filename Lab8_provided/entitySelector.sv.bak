@@ -1,0 +1,23 @@
+module entitySelector (
+  input logic [6:0] AddInter,
+  input logic [6:0] ShiftInter,
+  output logic [6:0] out
+);
+
+  always_comb
+    begin
+      unique case (select)
+        3'b000 : // orig
+          out = AddInter;
+        3'b001 : // 0
+          out = ShiftInter;
+        3'b010 : // 1
+          out = SubInter;
+        3'b011 : // 2
+          out = ColInter;
+        default :
+          out = Cur;
+      endcase
+    end
+
+endmodule
