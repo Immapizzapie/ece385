@@ -111,6 +111,9 @@ module lab8( input               CLOCK_50,
 
   VGA_controller vga_controller_instance(.Clk(Clk), .Reset(Reset_h), .VGA_HS(VGA_HS), .VGA_VS(VGA_VS), .VGA_CLK(VGA_CLK), .VGA_BLANK_N(VGA_BLANK_N), .VGA_SYNC_N(VGA_SYNC_N), .DrawX(DrawX), .DrawY(DrawY));
 
+  logic slClk;
+  slowClock slowclock(.Clk(Clk), .Reset(Reset_h), .Clk_slow(slClk));
+
   logic is_maze;
   logic [9:0] mazeX;
   logic [9:0] mazeY;
@@ -128,25 +131,25 @@ module lab8( input               CLOCK_50,
   logic [9:0] blinkyX;
   logic [9:0] blinkyY;
   logic [1:0] blinkyDir;
-  ghost blinky(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b00), .is_ghost(is_blinky), .spriteAddrX(blinkyX), .spriteAddrY(blinkyY), .dir(blinkyDir));
+  ghost blinky(.Clk(Clk), .Reset(Reset_h), .frame_clk(slClk), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b00), .is_ghost(is_blinky), .spriteAddrX(blinkyX), .spriteAddrY(blinkyY), .dir(blinkyDir));
 
   logic is_pinky;
   logic [9:0] pinkyX;
   logic [9:0] pinkyY;
   logic [1:0] pinkyDir;
-  ghost pinky(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b01), .is_ghost(is_pinky), .spriteAddrX(pinkyX), .spriteAddrY(pinkyY), .dir(pinkyDir));
+  ghost pinky(.Clk(Clk), .Reset(Reset_h), .frame_clk(slClk), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b01), .is_ghost(is_pinky), .spriteAddrX(pinkyX), .spriteAddrY(pinkyY), .dir(pinkyDir));
 
   logic is_inky;
   logic [9:0] inkyX;
   logic [9:0] inkyY;
   logic [1:0] inkyDir;
-  ghost inky(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b10), .is_ghost(is_inky), .spriteAddrX(inkyX), .spriteAddrY(inkyY), .dir(inkyDir));
+  ghost inky(.Clk(Clk), .Reset(Reset_h), .frame_clk(slClk), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b10), .is_ghost(is_inky), .spriteAddrX(inkyX), .spriteAddrY(inkyY), .dir(inkyDir));
 
   logic is_clyde;
   logic [9:0] clydeX;
   logic [9:0] clydeY;
   logic [1:0] clydeDir;
-  ghost clyde(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b11), .is_ghost(is_clyde), .spriteAddrX(clydeX), .spriteAddrY(clydeY), .dir(clydeDir));
+  ghost clyde(.Clk(Clk), .Reset(Reset_h), .frame_clk(slClk), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b11), .is_ghost(is_clyde), .spriteAddrX(clydeX), .spriteAddrY(clydeY), .dir(clydeDir));
 
   logic [6:0] entity;
   logic [9:0] entityX;

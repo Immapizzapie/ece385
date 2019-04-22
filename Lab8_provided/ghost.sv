@@ -108,7 +108,7 @@ output logic [1:0]  dir                 // what direction is pacman facing
     nextDir = curDir;
 
 
-	 direction = randout%7;
+	 direction = randout%4;
 
     // Update position and motion only at rising edge of frame clock
     if (frame_clk_rising_edge) begin
