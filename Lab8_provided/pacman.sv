@@ -19,14 +19,14 @@ module pacman ( input Clk,                // 50 MHz clock
                     frame_clk,          // The clock indicating a new frame (~60Hz)
       input [9:0]   DrawX, DrawY,       // Current pixel coordinates
       input [7:0]   keycode,            // scancode of key pressed
-output logic  is_pacman,          // Whether current pixel belongs to ball or background
+output logic  is_pacman,                // Whether current pixel belongs to ball or background
 output logic [9:0]  spriteAddrX,        // relative to the sprite, which pixel we are drawing
 output logic [9:0]  spriteAddrY,        // relative to the sprite, which pixel we are drawing
 output logic [1:0]  dir                 // what direction is pacman facing
               );
 
-  parameter [9:0] pacman_X_start = 10'd313;   // Center position on the X axis
-  parameter [9:0] pacman_Y_start = 10'd249;   // Center position on the Y axis
+  parameter [9:0] pacman_X_start = 10'd306;   // Center position on the X axis
+  parameter [9:0] pacman_Y_start = 10'd249;   // Center position on the Y axis (98+208,133+116)
 
 //  parameter [9:0] pacman_X_Min = 10'd0;       // Leftmost point on the X axis
 //  parameter [9:0] pacman_X_Max = 10'd639;     // Rightmost point on the X axis
@@ -49,6 +49,9 @@ output logic [1:0]  dir                 // what direction is pacman facing
 
   assign dir = curDir;
 
+  logic allowed;
+  walls maze_walls(.entity(3'b1), .entityX(pacman_X_Pos_in), .entityY(pacman_Y_Pos_in), .direction(nextDir), .Clk(Clk), .allowed(allowed));
+
   //////// Do not modify the always_ff blocks. ////////
   // Detect rising edge of frame_clk
   logic frame_clk_delayed, frame_clk_rising_edge;
@@ -70,7 +73,7 @@ output logic [1:0]  dir                 // what direction is pacman facing
       pacman_Y_Pos <= pacman_Y_Pos_in;
       pacman_X_Motion <= pacman_X_Motion_in;
       pacman_Y_Motion <= pacman_Y_Motion_in;
-		curDir <= nextDir;
+		  curDir <= nextDir;
     end
   end
 //////// Do not modify the always_ff blocks. ////////
@@ -122,7 +125,15 @@ output logic [1:0]  dir                 // what direction is pacman facing
     //   both sides of the operator as UNSIGNED numbers.
     // e.g. pacman_Y_Pos - pacman_Size <= pacman_Y_Min
     // If pacman_Y_Pos is 0, then pacman_Y_Pos - pacman_Size will not be -4, but rather a large positive number.
-    if( pacman_Y_Pos + pacman_Size >= pacman_Y_Max && pacman_Y_Motion_in == pacman_Y_Step)  // pacman is at the bottom edge
+    if (~allowed)
+      begin
+        pacman_X_Pos_in = pacman_X_Pos;
+        pacman_Y_Pos_in = pacman_Y_Pos;
+        pacman_X_Motion_in = 0;
+        pacman_Y_Motion_in = 0;
+        nextDir = curDir;
+      end
+    else if( pacman_Y_Pos + pacman_Size >= pacman_Y_Max && pacman_Y_Motion_in == pacman_Y_Step)  // pacman is at the bottom edge
       begin
         pacman_Y_Motion_in = 0;
         pacman_Y_Pos_in = pacman_Y_Max - pacman_Size;
