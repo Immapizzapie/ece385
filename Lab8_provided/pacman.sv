@@ -25,7 +25,7 @@ output logic [9:0]  spriteAddrY,        // relative to the sprite, which pixel w
 output logic [1:0]  dir                 // what direction is pacman facing
               );
 
-  parameter [9:0] pacman_X_start = 10'd306;   // Center position on the X axis
+  parameter [9:0] pacman_X_start = 10'd313;   // Center position on the X axis
   parameter [9:0] pacman_Y_start = 10'd249;   // Center position on the Y axis (98+208,133+116)
 
 //  parameter [9:0] pacman_X_Min = 10'd0;       // Leftmost point on the X axis
@@ -50,7 +50,7 @@ output logic [1:0]  dir                 // what direction is pacman facing
   assign dir = curDir;
 
   logic allowed;
-  walls maze_walls(.entity(3'b1), .entityX(pacman_X_Pos_in), .entityY(pacman_Y_Pos_in), .direction(nextDir), .Clk(Clk), .allowed(allowed));
+  walls maze_walls(.entity(3'b001), .entityX(pacman_X_Pos - 208), .entityY(pacman_Y_Pos - 116), .direction(nextDir), .Clk(Clk), .allowed(allowed));
 
   //////// Do not modify the always_ff blocks. ////////
   // Detect rising edge of frame_clk
@@ -117,7 +117,7 @@ output logic [1:0]  dir                 // what direction is pacman facing
           begin
             pacman_X_Motion_in = pacman_X_Motion;
             pacman_Y_Motion_in = pacman_Y_Motion;
-				nextDir = curDir;
+				    nextDir = curDir;
           end
       endcase
 
@@ -177,9 +177,9 @@ always_comb begin
   is_pacman = 0;
   spriteAddrX = 1'b0;
   spriteAddrY = 1'b0;
-  if (DrawX >= pacman_X_Pos && DrawX <= pacman_X_Pos + pacman_Size)
+  if (DrawX >= pacman_X_Pos && DrawX < pacman_X_Pos + pacman_Size)
     begin
-    if (DrawY >= pacman_Y_Pos && DrawY <= pacman_Y_Pos + pacman_Size)
+    if (DrawY >= pacman_Y_Pos && DrawY < pacman_Y_Pos + pacman_Size)
       begin
         is_pacman = 1;
         spriteAddrX = DrawX - pacman_X_Pos;

@@ -13,19 +13,19 @@ module lsfr (
     if(rst_i) begin
       if (ghosttype == 2'b00)
         begin
-          lfsr_value <= 23;
+          lfsr_value <= 99999999;
         end
       else if (ghosttype == 2'b01)
         begin
-          lfsr_value <= 100;
+          lfsr_value <= 49929202;
         end
       else if (ghosttype == 2'b10)
         begin
-          lfsr_value <= 0;
+          lfsr_value <= 484232;
         end
       else if (ghosttype == 2'b11)
         begin
-          lfsr_value <= 513;
+          lfsr_value <= 20490294;
         end
       else
         begin

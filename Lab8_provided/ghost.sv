@@ -47,7 +47,7 @@ output logic [1:0]  dir                 // what direction is pacman facing
 
   logic [31:0] randout;
 
-  lsfr pseudorand(.clk_i(frame_clk), .rst_i(Reset), .ghosttype(ghosttype), .rand_o(randout));
+  lsfr pseudorand(.clk_i(Clk), .rst_i(Reset), .ghosttype(ghosttype), .rand_o(randout));
 
   //////// Do not modify the always_ff blocks. ////////
   // Detect rising edge of frame_clk

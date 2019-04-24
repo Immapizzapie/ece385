@@ -111,9 +111,12 @@ always_comb begin
 
 				if (color == 24'h000000)
 					begin
-						Red = color2[23:16];
-						Green = color2[15:8];
-						Blue = color2[7:0];
+						Red = dumbcounter1;
+						Green = dumbcounter2;
+						Blue = dumbcounter3;
+						// Red = color2[23:16];
+						// Green = color2[15:8];
+						// Blue = color2[7:0];
 //						if (color2 == 24'h000000)
 //							begin
 //								Red = color2[23:16];

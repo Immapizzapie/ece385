@@ -19,7 +19,7 @@ logic [3:0] mem [0:126975];
 
 initial
 begin
-	 $readmemh("sprites.txt", mem);
+	 $readmemh("pacman_sprites_copy.txt", mem);
 end
 
 logic [4:0] index;
