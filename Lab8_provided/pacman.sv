@@ -50,7 +50,7 @@ output logic [1:0]  dir                 // what direction is pacman facing
   assign dir = curDir;
 
   logic allowed;
-  walls maze_walls(.entity(3'b001), .entityX(pacman_X_Pos - 208), .entityY(pacman_Y_Pos - 116), .direction(nextDir), .Clk(Clk), .allowed(allowed));
+  walls maze_walls(.entity(3'b001), .entityX(pacman_X_Pos_in - 208 + 7), .entityY(pacman_Y_Pos_in - 116 + 7), .direction(nextDir), .Clk(Clk), .allowed(allowed));
 
   //////// Do not modify the always_ff blocks. ////////
   // Detect rising edge of frame_clk
@@ -125,6 +125,8 @@ output logic [1:0]  dir                 // what direction is pacman facing
     //   both sides of the operator as UNSIGNED numbers.
     // e.g. pacman_Y_Pos - pacman_Size <= pacman_Y_Min
     // If pacman_Y_Pos is 0, then pacman_Y_Pos - pacman_Size will not be -4, but rather a large positive number.
+    pacman_X_Pos_in = pacman_X_Pos + pacman_X_Motion;
+    pacman_Y_Pos_in = pacman_Y_Pos + pacman_Y_Motion;
     if (~allowed)
       begin
         pacman_X_Pos_in = pacman_X_Pos;
