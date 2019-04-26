@@ -45,12 +45,13 @@ output logic [1:0]  dir                 // what direction is pacman facing
   logic [9:0] pacman_X_Pos, pacman_X_Motion, pacman_Y_Pos, pacman_Y_Motion, pacman_X_Pos_prev, pacman_Y_Pos_prev;
   logic [9:0] pacman_X_Pos_in, pacman_X_Motion_in, pacman_Y_Pos_in, pacman_Y_Motion_in;
 
-  logic [1:0] curDir, nextDir;
+  logic [1:0] curDir, nextDir, future_dir;
 
   assign dir = curDir;
 
   logic allowed;
-  walls maze_walls(.entity(3'b001), .entityX(pacman_X_Pos - 208 + 7), .entityY(pacman_Y_Pos - 116 + 7), .direction(nextDir), .Clk(Clk), .allowed(allowed));
+  logic future_allowed;
+  walls pacman_maze_walls(.entity(3'b001), .entityX(pacman_X_Pos - 208 + 7), .entityY(pacman_Y_Pos - 116 + 7), .direction(nextDir), .future_direction(future_dir), .Clk(Clk), .allowed(allowed), .future_allowed());
   // walls maze_walls(.entity(3'b001), .entityX(pacman_X_Pos + pacman_X_Motion - 208 + 7), .entityY(pacman_Y_Pos + pacman_Y_Motion - 116 + 7), .direction(nextDir), .Clk(Clk), .allowed(allowed));
 
   // logic future_allowed;
@@ -94,59 +95,39 @@ output logic [1:0]  dir                 // what direction is pacman facing
     pacman_X_Motion_in = pacman_X_Motion;
     pacman_Y_Motion_in = pacman_Y_Motion;
     nextDir = curDir;
-    // unique case(keycode)
-    //   8'h1a: future_dir = 0;
-    //   8'h04: future_dir = 1;
-    //   8'h17: future_dir = 2;
-    //   8'h07: future_dir = 3;
-    //   default: future_dir = 1;
-    // endcase
+    unique case(keycode)
+      8'h1a: future_dir = 0;
+      8'h04: future_dir = 1;
+      8'h17: future_dir = 2;
+      8'h07: future_dir = 3;
+      default: future_dir = curDir;
+    endcase
     // Update position and motion only at rising edge of frame clock
-    if (frame_clk_rising_edge) begin
+    if (frame_clk_rising_edge && future_allowed) begin
       unique case (keycode)
         8'h1a: // w
           begin
             nextDir = 0;
-            if(allowed)
-              begin
-              pacman_Y_Motion_in = (~(pacman_Y_Step) + 1'b1);
-              pacman_X_Motion_in = 0;
-              end
-            else
-              nextDir = curDir;
+            pacman_Y_Motion_in = (~(pacman_Y_Step) + 1'b1);
+            pacman_X_Motion_in = 0;
           end
         8'h04: // a
           begin
             nextDir = 1;
-            if(allowed)
-              begin
-              pacman_X_Motion_in = (~(pacman_X_Step) + 1'b1);
-              pacman_Y_Motion_in = 0;
-              end
-            else
-              nextDir = curDir;
+            pacman_X_Motion_in = (~(pacman_X_Step) + 1'b1);
+            pacman_Y_Motion_in = 0;
           end
         8'h16: // s
           begin
             nextDir = 2;
-            if(allowed)
-              begin
-              pacman_Y_Motion_in = pacman_Y_Step;
-              pacman_X_Motion_in = 0;
-              end
-            else
-              nextDir = curDir;
+            pacman_Y_Motion_in = pacman_Y_Step;
+            pacman_X_Motion_in = 0;
           end
         8'h07: // d
           begin
             nextDir = 3;
-            if(allowed)
-            begin
-              pacman_X_Motion_in = pacman_X_Step;
-              pacman_Y_Motion_in = 0;
-            end
-            else
-              nextDir = curDir;
+            pacman_X_Motion_in = pacman_X_Step;
+            pacman_Y_Motion_in = 0;
           end
         default:
           begin

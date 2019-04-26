@@ -44,12 +44,13 @@ output logic [1:0]  dir                 // what direction is pacman facing
   logic [9:0] ghost_X_Pos_in, ghost_X_Motion_in, ghost_Y_Pos_in, ghost_Y_Motion_in;
   logic [1:0] direction;
 
-  logic [1:0] curDir, nextDir;
+  logic [1:0] curDir, nextDir, future_dir;
 
   assign dir = curDir;
 
   logic allowed;
-  walls maze_walls(.entity(3'b001), .entityX(ghost_X_Pos + ghost_X_Motion - 208 + 7), .entityY(ghost_Y_Pos + ghost_Y_Motion - 116 + 7), .direction(nextDir), .Clk(Clk), .allowed(allowed));
+  logic future_allowed;
+  walls ghost_maze_walls(.entity(3'b001), .entityX(ghost_X_Pos + ghost_X_Motion - 208 + 7), .entityY(ghost_Y_Pos + ghost_Y_Motion - 116 + 7), .direction(nextDir), .future_direction(future_dir), .Clk(Clk), .allowed(allowed), .future_allowed(future_allowed));
 
   logic [31:0] randout;
   lsfr pseudorand(.clk_i(Clk), .rst_i(Reset), .ghosttype(ghosttype), .rand_o(randout));
