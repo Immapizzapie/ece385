@@ -95,39 +95,55 @@ output logic [1:0]  dir                 // what direction is pacman facing
     pacman_X_Motion_in = pacman_X_Motion;
     pacman_Y_Motion_in = pacman_Y_Motion;
     nextDir = curDir;
-    unique case(keycode)
-      8'h1a: future_dir = 0;
-      8'h04: future_dir = 1;
-      8'h17: future_dir = 2;
-      8'h07: future_dir = 3;
-      default: future_dir = curDir;
-    endcase
+    // unique case(keycode)
+    //   8'h1a: future_dir = 0;
+    //   8'h04: future_dir = 1;
+    //   8'h17: future_dir = 2;
+    //   8'h07: future_dir = 3;
+    //   default: future_dir = curDir;
+    // endcase
     // Update position and motion only at rising edge of frame clock
-    if (frame_clk_rising_edge && future_allowed) begin
+    if (frame_clk_rising_edge) begin
+      unique case(keycode)
+        8'h1a: future_dir = 0;
+        8'h04: future_dir = 1;
+        8'h17: future_dir = 2;
+        8'h07: future_dir = 3;
+        default: future_dir = curDir;
+      endcase
+      
       unique case (keycode)
         8'h1a: // w
           begin
-            nextDir = 0;
-            pacman_Y_Motion_in = (~(pacman_Y_Step) + 1'b1);
-            pacman_X_Motion_in = 0;
+            if(future_allowed)begin
+              nextDir = 0;
+              pacman_Y_Motion_in = (~(pacman_Y_Step) + 1'b1);
+              pacman_X_Motion_in = 0;
+            end
           end
         8'h04: // a
           begin
-            nextDir = 1;
-            pacman_X_Motion_in = (~(pacman_X_Step) + 1'b1);
-            pacman_Y_Motion_in = 0;
+            if(future_allowed)begin
+              nextDir = 1;
+              pacman_X_Motion_in = (~(pacman_X_Step) + 1'b1);
+              pacman_Y_Motion_in = 0;
+            end
           end
         8'h16: // s
           begin
-            nextDir = 2;
-            pacman_Y_Motion_in = pacman_Y_Step;
-            pacman_X_Motion_in = 0;
+            if(future_allowed)begin
+              nextDir = 2;
+              pacman_Y_Motion_in = pacman_Y_Step;
+              pacman_X_Motion_in = 0;
+            end
           end
         8'h07: // d
           begin
-            nextDir = 3;
-            pacman_X_Motion_in = pacman_X_Step;
-            pacman_Y_Motion_in = 0;
+            if(future_allowed)begin
+              nextDir = 3;
+              pacman_X_Motion_in = pacman_X_Step;
+              pacman_Y_Motion_in = 0;
+            end
           end
         default:
           begin
