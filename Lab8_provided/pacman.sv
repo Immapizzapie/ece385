@@ -42,7 +42,7 @@ output logic [1:0]  dir                 // what direction is pacman facing
   parameter [9:0] pacman_Y_Step = 10'd1;      // Step size on the Y axis
   parameter [9:0] pacman_Size = 10'd14;       // Ball size
 
-  logic [9:0] pacman_X_Pos, pacman_X_Motion, pacman_Y_Pos, pacman_Y_Motion;
+  logic [9:0] pacman_X_Pos, pacman_X_Motion, pacman_Y_Pos, pacman_Y_Motion, pacman_X_Pos_prev, pacman_Y_Pos_prev;
   logic [9:0] pacman_X_Pos_in, pacman_X_Motion_in, pacman_Y_Pos_in, pacman_Y_Motion_in;
 
   logic [1:0] curDir, nextDir;
@@ -50,8 +50,12 @@ output logic [1:0]  dir                 // what direction is pacman facing
   assign dir = curDir;
 
   logic allowed;
-  walls maze_walls(.entity(3'b001), .entityX(pacman_X_Pos_in - 208 + 7), .entityY(pacman_Y_Pos_in - 116 + 7), .direction(nextDir), .Clk(Clk), .allowed(allowed));
+  walls maze_walls(.entity(3'b001), .entityX(pacman_X_Pos - 208 + 7), .entityY(pacman_Y_Pos - 116 + 7), .direction(nextDir), .Clk(Clk), .allowed(allowed));
+  // walls maze_walls(.entity(3'b001), .entityX(pacman_X_Pos + pacman_X_Motion - 208 + 7), .entityY(pacman_Y_Pos + pacman_Y_Motion - 116 + 7), .direction(nextDir), .Clk(Clk), .allowed(allowed));
 
+  // logic future_allowed;
+  // logic future_dir;
+  // walls future_maze_walls(.entity(3'b001), .entityX(pacman_X_Pos + pacman_X_Motion - 208 + 7), .entityY(pacman_Y_Pos + pacman_Y_Motion - 116 + 7), .direction(future_dir), .Clk(Clk), .allowed(future_allowed));
   //////// Do not modify the always_ff blocks. ////////
   // Detect rising edge of frame_clk
   logic frame_clk_delayed, frame_clk_rising_edge;
@@ -64,11 +68,15 @@ output logic [1:0]  dir                 // what direction is pacman facing
     if (Reset) begin
       pacman_X_Pos <= pacman_X_start;
       pacman_Y_Pos <= pacman_Y_start;
+      // pacman_X_Pos_prev <= 0;
+      // pacman_Y_Pos_prev <= 0;
       pacman_X_Motion <= 10'd0;
       pacman_Y_Motion <= 10'd0;
 		  curDir <= 3;
     end
     else begin
+      // pacman_X_Pos_prev <= pacman_X_Pos;
+      // pacman_Y_Pos_prev <= pacman_Y_Pos;
       pacman_X_Pos <= pacman_X_Pos_in;
       pacman_Y_Pos <= pacman_Y_Pos_in;
       pacman_X_Motion <= pacman_X_Motion_in;
@@ -86,32 +94,59 @@ output logic [1:0]  dir                 // what direction is pacman facing
     pacman_X_Motion_in = pacman_X_Motion;
     pacman_Y_Motion_in = pacman_Y_Motion;
     nextDir = curDir;
+    // unique case(keycode)
+    //   8'h1a: future_dir = 0;
+    //   8'h04: future_dir = 1;
+    //   8'h17: future_dir = 2;
+    //   8'h07: future_dir = 3;
+    //   default: future_dir = 1;
+    // endcase
     // Update position and motion only at rising edge of frame clock
     if (frame_clk_rising_edge) begin
       unique case (keycode)
         8'h1a: // w
           begin
-            pacman_Y_Motion_in = (~(pacman_Y_Step) + 1'b1);
-            pacman_X_Motion_in = 0;
             nextDir = 0;
+            if(allowed)
+              begin
+              pacman_Y_Motion_in = (~(pacman_Y_Step) + 1'b1);
+              pacman_X_Motion_in = 0;
+              end
+            else
+              nextDir = curDir;
           end
         8'h04: // a
           begin
-            pacman_X_Motion_in = (~(pacman_X_Step) + 1'b1);
-            pacman_Y_Motion_in = 0;
             nextDir = 1;
+            if(allowed)
+              begin
+              pacman_X_Motion_in = (~(pacman_X_Step) + 1'b1);
+              pacman_Y_Motion_in = 0;
+              end
+            else
+              nextDir = curDir;
           end
         8'h16: // s
           begin
-            pacman_Y_Motion_in = pacman_Y_Step;
-            pacman_X_Motion_in = 0;
             nextDir = 2;
+            if(allowed)
+              begin
+              pacman_Y_Motion_in = pacman_Y_Step;
+              pacman_X_Motion_in = 0;
+              end
+            else
+              nextDir = curDir;
           end
         8'h07: // d
           begin
-            pacman_X_Motion_in = pacman_X_Step;
-            pacman_Y_Motion_in = 0;
             nextDir = 3;
+            if(allowed)
+            begin
+              pacman_X_Motion_in = pacman_X_Step;
+              pacman_Y_Motion_in = 0;
+            end
+            else
+              nextDir = curDir;
           end
         default:
           begin
@@ -125,17 +160,8 @@ output logic [1:0]  dir                 // what direction is pacman facing
     //   both sides of the operator as UNSIGNED numbers.
     // e.g. pacman_Y_Pos - pacman_Size <= pacman_Y_Min
     // If pacman_Y_Pos is 0, then pacman_Y_Pos - pacman_Size will not be -4, but rather a large positive number.
-    pacman_X_Pos_in = pacman_X_Pos + pacman_X_Motion;
-    pacman_Y_Pos_in = pacman_Y_Pos + pacman_Y_Motion;
-    if (~allowed)
-      begin
-        pacman_X_Pos_in = pacman_X_Pos;
-        pacman_Y_Pos_in = pacman_Y_Pos;
-        pacman_X_Motion_in = 0;
-        pacman_Y_Motion_in = 0;
-        nextDir = curDir;
-      end
-    else if( pacman_Y_Pos + pacman_Size >= pacman_Y_Max && pacman_Y_Motion_in == pacman_Y_Step)  // pacman is at the bottom edge
+
+    if( pacman_Y_Pos + pacman_Size >= pacman_Y_Max && pacman_Y_Motion_in == pacman_Y_Step)  // pacman is at the bottom edge
       begin
         pacman_Y_Motion_in = 0;
         pacman_Y_Pos_in = pacman_Y_Max - pacman_Size;
@@ -163,7 +189,7 @@ output logic [1:0]  dir                 // what direction is pacman facing
         pacman_X_Pos_in = pacman_X_Min;
         pacman_Y_Pos_in = pacman_Y_Pos + pacman_Y_Motion;
       end
-    else
+    else if (allowed)
       begin
         // Update the pacman's position with its motion
         pacman_X_Pos_in = pacman_X_Pos + pacman_X_Motion;

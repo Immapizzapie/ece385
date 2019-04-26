@@ -25,8 +25,11 @@ output logic [9:0]  spriteAddrY,        // relative to the sprite, which pixel w
 output logic [1:0]  dir                 // what direction is pacman facing
               );
 
-  parameter [9:0] ghost_X_start = 10'd298;   // top left of ghost box 208+90
-  parameter [9:0] ghost_Y_start = 10'd222;   // 116+106
+  // parameter [9:0] ghost_X_start = 10'd298;   // top left of ghost box 208+90
+  // parameter [9:0] ghost_Y_start = 10'd222;   // 116+106
+
+  parameter [9:0] ghost_X_start = 10'd277;   // top left of ghost box 208+90
+  parameter [9:0] ghost_Y_start = 10'd201;   // 116+106
 
   parameter [9:0] ghost_X_Min = 10'd208;       // Leftmost point on the X axis
   parameter [9:0] ghost_X_Max = 10'd432;     // Rightmost point on the X axis
@@ -45,8 +48,10 @@ output logic [1:0]  dir                 // what direction is pacman facing
 
   assign dir = curDir;
 
-  logic [31:0] randout;
+  logic allowed;
+  walls maze_walls(.entity(3'b001), .entityX(ghost_X_Pos + ghost_X_Motion - 208 + 7), .entityY(ghost_Y_Pos + ghost_Y_Motion - 116 + 7), .direction(nextDir), .Clk(Clk), .allowed(allowed));
 
+  logic [31:0] randout;
   lsfr pseudorand(.clk_i(Clk), .rst_i(Reset), .ghosttype(ghosttype), .rand_o(randout));
 
   //////// Do not modify the always_ff blocks. ////////
@@ -66,18 +71,18 @@ output logic [1:0]  dir                 // what direction is pacman facing
         end
       else if (ghosttype == 2'b01)
         begin
-          ghost_X_Pos <= ghost_X_start + 20;
-          ghost_Y_Pos <= ghost_Y_start + 20;
+          ghost_X_Pos <= ghost_X_start + 24;
+          ghost_Y_Pos <= ghost_Y_start;
         end
       else if (ghosttype == 2'b10)
         begin
-          ghost_X_Pos <= ghost_X_start + 20;
-          ghost_Y_Pos <= ghost_Y_start - 20;
+          ghost_X_Pos <= ghost_X_start + 48;
+          ghost_Y_Pos <= ghost_Y_start;
         end
       else if (ghosttype == 2'b11)
         begin
-          ghost_X_Pos <= ghost_X_start - 20;
-          ghost_Y_Pos <= ghost_Y_start - 20;
+          ghost_X_Pos <= ghost_X_start + 72;
+          ghost_Y_Pos <= ghost_Y_start;
         end
       else
         begin
@@ -111,7 +116,7 @@ output logic [1:0]  dir                 // what direction is pacman facing
 	 direction = randout%4;
 
     // Update position and motion only at rising edge of frame clock
-    if (frame_clk_rising_edge) begin
+    if (frame_clk_rising_edge) begin // && ghost_X_Motion==10'b0 && ghost_Y_Motion==10'b0) begin
       unique case (direction)
         2'b00: // w
           begin
@@ -177,7 +182,7 @@ output logic [1:0]  dir                 // what direction is pacman facing
         ghost_X_Pos_in = ghost_X_Min;
         ghost_Y_Pos_in = ghost_Y_Pos + ghost_Y_Motion;
       end
-    else
+    else if (allowed)
       begin
         // Update the pacman's position with its motion
         ghost_X_Pos_in = ghost_X_Pos + ghost_X_Motion;

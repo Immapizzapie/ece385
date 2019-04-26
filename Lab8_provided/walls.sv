@@ -3,14 +3,14 @@ module walls
 		input [2:0] entity,
 		input [9:0] entityX,
 		input [9:0] entityY,
-		input direction,
+		input [1:0] direction,
 		input Clk,
 		output allowed
 );
 
 // mem has width of 2 bits and a total of 63488 addresses
-logic [1:0] mem[0:63487];
-logic [1:0] oneBitDepth[0:1];
+// logic [1:0] mem[0:63487];
+// logic [1:0] oneBitDepth[0:1];
 // logic [1:0] twoBitDepth[0:13];
 // logic [1:0] threeBitDepth[0:13];
 
@@ -88,6 +88,7 @@ logic [1:0] oneBitDepth[0:1];
 //
 // endmodule
 logic [2:0] bitmap [35:0][27:0];
+logic point1, point2; //left, right
 
 	always_comb begin
 		bitmap[0]  = '{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
@@ -97,9 +98,9 @@ logic [2:0] bitmap [35:0][27:0];
 		bitmap[4]  = '{0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0};
 		bitmap[5]  = '{0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0};
 		bitmap[6]  = '{0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0};
-		bitmap[7] = '{0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0};
-		bitmap[8] = '{0,1,1,1,1,1,1,0,0,1,1,1,1,0,0,1,1,1,1,0,0,1,1,1,1,1,1,0};
-		bitmap[9] = '{0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0};
+		bitmap[7]  = '{0,1,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0};
+		bitmap[8]  = '{0,1,1,1,1,1,1,0,0,1,1,1,1,0,0,1,1,1,1,0,0,1,1,1,1,1,1,0};
+		bitmap[9]  = '{0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0};
 		bitmap[10] = '{0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0};
 		bitmap[11] = '{0,0,0,0,0,0,1,0,0,1,1,1,1,1,1,1,1,1,1,0,0,1,0,0,0,0,0,0};
 		bitmap[12] = '{0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0};
@@ -121,8 +122,37 @@ logic [2:0] bitmap [35:0][27:0];
 		bitmap[28] = '{0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0};
 		bitmap[29] = '{0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0};
 		bitmap[30] = '{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+
+		unique case(direction)
+					2'b00: //up
+					begin
+						point1 = bitmap[(entityY - 4) >> 3][(entityX - 4) >> 3];
+						point2 = bitmap[(entityY - 4) >> 3][(entityX + 3) >> 3];
+					end
+
+					2'b01: //left
+					begin
+						point1 = bitmap[(entityY + 3) >> 3][(entityX - 4) >> 3];
+						point2 = bitmap[(entityY - 4) >> 3][(entityX - 4) >> 3];
+					end
+
+					2'b10: //down
+					begin
+						point1 = bitmap[(entityY + 3) >> 3][(entityX - 4) >> 3];
+						point2 = bitmap[(entityY + 3) >> 3][(entityX + 3) >> 3];
+					end
+
+					2'b11: //right
+					begin
+						point1 = bitmap[(entityY - 4) >> 3][(entityX + 3) >> 3];
+						point2 = bitmap[(entityY + 3) >> 3][(entityX + 3) >> 3];
+					end
+				endcase
+				allowed = point1&point2;
+				if (entity>2 && 103<entityX && entityX<106 && 98<entityY && entityY<104 && direction==2'b00)
+					allowed = 1'b1;
 	end
 
-assign allows = bitmap[entityY >> 3][entityX >> 3];
+// assign allowed = bitmap[entityY >> 3][entityX >> 3];
 
 endmodule
