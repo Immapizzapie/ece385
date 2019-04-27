@@ -46,17 +46,14 @@ output logic [1:0]  dir                 // what direction is pacman facing
   logic [9:0] pacman_X_Pos_in, pacman_X_Motion_in, pacman_Y_Pos_in, pacman_Y_Motion_in;
 
   logic [1:0] curDir, nextDir, future_dir;
+  logic [9:0] pacman_X_Motion_prev, pacman_Y_Motion_prev, prevDir;
 
-  assign dir = curDir;
+  assign dir = prevDir;
 
-  logic allowed;
-  logic future_allowed;
-  walls pacman_maze_walls(.entity(3'b001), .entityX(pacman_X_Pos - 208 + 7), .entityY(pacman_Y_Pos - 116 + 7), .direction(nextDir), .future_direction(future_dir), .Clk(Clk), .allowed(allowed), .future_allowed());
-  // walls maze_walls(.entity(3'b001), .entityX(pacman_X_Pos + pacman_X_Motion - 208 + 7), .entityY(pacman_Y_Pos + pacman_Y_Motion - 116 + 7), .direction(nextDir), .Clk(Clk), .allowed(allowed));
+  logic [7:0] lastkey, lastkey_in;
 
-  // logic future_allowed;
-  // logic future_dir;
-  // walls future_maze_walls(.entity(3'b001), .entityX(pacman_X_Pos + pacman_X_Motion - 208 + 7), .entityY(pacman_Y_Pos + pacman_Y_Motion - 116 + 7), .direction(future_dir), .Clk(Clk), .allowed(future_allowed));
+  walls maze_walls(.entity(3'b001), .entityX(pacman_X_Pos + pacman_X_Motion - 208 + 7), .entityY(pacman_Y_Pos + pacman_Y_Motion - 116 + 7), .direction(curDir), .Clk(Clk), .allowed(allowed));
+
   //////// Do not modify the always_ff blocks. ////////
   // Detect rising edge of frame_clk
   logic frame_clk_delayed, frame_clk_rising_edge;
@@ -69,20 +66,38 @@ output logic [1:0]  dir                 // what direction is pacman facing
     if (Reset) begin
       pacman_X_Pos <= pacman_X_start;
       pacman_Y_Pos <= pacman_Y_start;
-      // pacman_X_Pos_prev <= 0;
-      // pacman_Y_Pos_prev <= 0;
       pacman_X_Motion <= 10'd0;
       pacman_Y_Motion <= 10'd0;
 		  curDir <= 3;
+
+      pacman_X_Motion_prev <= 10'd0;
+      pacman_Y_Motion_prev <= 10'd0;
+      prevDir <= 3;
+      lastkey <= 8'h00;
     end
     else begin
-      // pacman_X_Pos_prev <= pacman_X_Pos;
-      // pacman_Y_Pos_prev <= pacman_Y_Pos;
-      pacman_X_Pos <= pacman_X_Pos_in;
-      pacman_Y_Pos <= pacman_Y_Pos_in;
-      pacman_X_Motion <= pacman_X_Motion_in;
-      pacman_Y_Motion <= pacman_Y_Motion_in;
-		  curDir <= nextDir;
+      if (allowed)
+        begin
+          pacman_X_Pos <= pacman_X_Pos_in;
+          pacman_Y_Pos <= pacman_Y_Pos_in;
+          pacman_X_Motion <= pacman_X_Motion_in;
+          pacman_Y_Motion <= pacman_Y_Motion_in;
+    		  curDir <= nextDir;
+
+          pacman_X_Motion_prev <= pacman_X_Motion;
+          pacman_Y_Motion_prev <= pacman_Y_Motion;
+          prevDir <= curDir;
+        end
+      else
+        begin
+          pacman_X_Pos <= pacman_X_Pos_in;
+          pacman_Y_Pos <= pacman_Y_Pos_in;
+          pacman_X_Motion <= pacman_X_Motion_in;
+          pacman_Y_Motion <= pacman_Y_Motion_in;
+          curDir <= nextDir;
+        end
+
+      lastkey <= lastkey_in;
     end
   end
 //////// Do not modify the always_ff blocks. ////////
@@ -95,69 +110,92 @@ output logic [1:0]  dir                 // what direction is pacman facing
     pacman_X_Motion_in = pacman_X_Motion;
     pacman_Y_Motion_in = pacman_Y_Motion;
     nextDir = curDir;
-    // unique case(keycode)
-    //   8'h1a: future_dir = 0;
-    //   8'h04: future_dir = 1;
-    //   8'h17: future_dir = 2;
-    //   8'h07: future_dir = 3;
-    //   default: future_dir = curDir;
-    // endcase
+    lastkey_in = lastkey;
+
     // Update position and motion only at rising edge of frame clock
-    if (frame_clk_rising_edge) begin
-      unique case(keycode)
-        8'h1a: future_dir = 0;
-        8'h04: future_dir = 1;
-        8'h17: future_dir = 2;
-        8'h07: future_dir = 3;
-        default: future_dir = curDir;
-      endcase
-      
-      unique case (keycode)
-        8'h1a: // w
-          begin
-            if(future_allowed)begin
+    if (frame_clk_rising_edge)
+      begin
+        unique case (keycode) // For our NEXT step, we will utilize the changed direction
+          8'h1a: // w
+            begin
               nextDir = 0;
               pacman_Y_Motion_in = (~(pacman_Y_Step) + 1'b1);
               pacman_X_Motion_in = 0;
+              lastkey_in = 8'h1a;
             end
-          end
-        8'h04: // a
-          begin
-            if(future_allowed)begin
+          8'h04: // a
+            begin
               nextDir = 1;
               pacman_X_Motion_in = (~(pacman_X_Step) + 1'b1);
               pacman_Y_Motion_in = 0;
+              lastkey_in = 8'h04;
             end
-          end
-        8'h16: // s
-          begin
-            if(future_allowed)begin
+          8'h16: // s
+            begin
               nextDir = 2;
               pacman_Y_Motion_in = pacman_Y_Step;
               pacman_X_Motion_in = 0;
+              lastkey_in = 8'h16;
             end
-          end
-        8'h07: // d
-          begin
-            if(future_allowed)begin
+          8'h07: // d
+            begin
               nextDir = 3;
               pacman_X_Motion_in = pacman_X_Step;
               pacman_Y_Motion_in = 0;
+              lastkey_in = 8'h07;
             end
-          end
-        default:
-          begin
-            pacman_X_Motion_in = pacman_X_Motion;
-            pacman_Y_Motion_in = pacman_Y_Motion;
-				    nextDir = curDir;
-          end
-      endcase
+          default:
+            begin
+              nextDir = prevDir;
+              pacman_X_Motion_in = pacman_X_Motion_prev;
+              pacman_Y_Motion_in = pacman_Y_Motion_prev;
+              lastkey_in = lastkey;
+            end
+        endcase
 
+    // if (lastkey_in != lastkey)
+    //   begin
+    //     unique case (lastkey_in)
+    //       8'h1a: // w
+    //         begin
+    //           nextDir = 0;
+    //           pacman_Y_Motion_in = (~(pacman_Y_Step) + 1'b1);
+    //           pacman_X_Motion_in = 0;
+    //           lastkey_in = 8'h1a;
+    //         end
+    //       8'h04: // a
+    //         begin
+    //           nextDir = 1;
+    //           pacman_X_Motion_in = (~(pacman_X_Step) + 1'b1);
+    //           pacman_Y_Motion_in = 0;
+    //           lastkey_in = 8'h04;
+    //         end
+    //       8'h16: // s
+    //         begin
+    //           nextDir = 2;
+    //           pacman_Y_Motion_in = pacman_Y_Step;
+    //           pacman_X_Motion_in = 0;
+    //           lastkey_in = 8'h16;
+    //         end
+    //       8'h07: // d
+    //         begin
+    //           nextDir = 3;
+    //           pacman_X_Motion_in = pacman_X_Step;
+    //           pacman_Y_Motion_in = 0;
+    //           lastkey_in = 8'h07;
+    //         end
+    //       // default:
+    //       //   begin
+    //       //     nextDir = curDir;
+    //       //     pacman_X_Motion_in = pacman_X_Motion;
+    //       //     pacman_Y_Motion_in = pacman_Y_Motion;
+    //       //   end
+    //     endcase
+    //   end
     // Be careful when using comparators with "logic" datatype because compiler treats
     //   both sides of the operator as UNSIGNED numbers.
     // e.g. pacman_Y_Pos - pacman_Size <= pacman_Y_Min
     // If pacman_Y_Pos is 0, then pacman_Y_Pos - pacman_Size will not be -4, but rather a large positive number.
-
     if( pacman_Y_Pos + pacman_Size >= pacman_Y_Max && pacman_Y_Motion_in == pacman_Y_Step)  // pacman is at the bottom edge
       begin
         pacman_Y_Motion_in = 0;
@@ -172,7 +210,6 @@ output logic [1:0]  dir                 // what direction is pacman facing
         pacman_X_Pos_in = pacman_X_Pos + pacman_X_Motion;
       end
 
-    // TODO: Add other boundary detections and handle keypress here.
     else if( pacman_X_Pos + pacman_Size >= pacman_X_Max && pacman_X_Motion_in == pacman_X_Step)  // pacman is at the right edge
       begin
         pacman_X_Motion_in = 0;
@@ -186,14 +223,34 @@ output logic [1:0]  dir                 // what direction is pacman facing
         pacman_X_Pos_in = pacman_X_Min;
         pacman_Y_Pos_in = pacman_Y_Pos + pacman_Y_Motion;
       end
+
     else if (allowed)
       begin
         // Update the pacman's position with its motion
         pacman_X_Pos_in = pacman_X_Pos + pacman_X_Motion;
         pacman_Y_Pos_in = pacman_Y_Pos + pacman_Y_Motion;
       end
+
+    else
+      begin
+        if (curDir == prevDir)
+          begin
+            pacman_X_Motion_in = 0;
+            pacman_Y_Motion_in = 0;
+          end
+        else
+          begin
+            nextDir = prevDir;
+            pacman_X_Motion_in = pacman_X_Motion_prev;
+            pacman_Y_Motion_in = pacman_Y_Motion_prev;
+            pacman_X_Pos_in = pacman_X_Pos + pacman_X_Motion_prev;
+            pacman_Y_Pos_in = pacman_Y_Pos + pacman_Y_Motion_prev;
+          end
+      end
+
     end
   end
+
 
 // Compute whether the pixel corresponds to pacman or background
 /* Since the multiplicants are required to be signed, we have to first cast them

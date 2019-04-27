@@ -38,7 +38,7 @@ output logic [1:0]  dir                 // what direction is pacman facing
 
   parameter [9:0] ghost_X_Step = 10'd1;      // Step size on the X axis
   parameter [9:0] ghost_Y_Step = 10'd1;      // Step size on the Y axis
-  parameter [9:0] ghost_Size = 10'd14;       // Ball size
+  parameter [9:0] ghost_Size = 10'd13;       // Ball size
 
   logic [9:0] ghost_X_Pos, ghost_X_Motion, ghost_Y_Pos, ghost_Y_Motion;
   logic [9:0] ghost_X_Pos_in, ghost_X_Motion_in, ghost_Y_Pos_in, ghost_Y_Motion_in;

@@ -4,10 +4,8 @@ module walls
 		input [9:0] entityX,
 		input [9:0] entityY,
 		input [1:0] direction,
-		input [1:0] future_direction,
 		input Clk,
 		output allowed,
-		output future_allowed
 );
 
 // mem has width of 2 bits and a total of 63488 addresses
@@ -153,32 +151,32 @@ logic point1, point2; //left, right
 		allowed = point1&point2;
 				// if (entity>2 && 103<entityX && entityX<106 && 98<entityY && entityY<104 && direction==2'b00)
 				// 	allowed = 1'b1;
-		unique case(future_direction)
-					2'b00: //up
-					begin
-						point1 = bitmap[(entityY - 4) >> 3][(entityX - 4) >> 3];
-						point2 = bitmap[(entityY - 4) >> 3][(entityX + 3) >> 3];
-					end
-
-					2'b01: //left
-					begin
-						point1 = bitmap[(entityY + 3) >> 3][(entityX - 4) >> 3];
-						point2 = bitmap[(entityY - 4) >> 3][(entityX - 4) >> 3];
-					end
-
-					2'b10: //down
-					begin
-						point1 = bitmap[(entityY + 3) >> 3][(entityX - 4) >> 3];
-						point2 = bitmap[(entityY + 3) >> 3][(entityX + 3) >> 3];
-					end
-
-					2'b11: //right
-					begin
-						point1 = bitmap[(entityY - 4) >> 3][(entityX + 3) >> 3];
-						point2 = bitmap[(entityY + 3) >> 3][(entityX + 3) >> 3];
-					end
-				endcase
-			future_allowed = point1&point2;
+		// unique case(future_direction)
+		// 			2'b00: //up
+		// 			begin
+		// 				point1 = bitmap[(entityY - 4) >> 3][(entityX - 4) >> 3];
+		// 				point2 = bitmap[(entityY - 4) >> 3][(entityX + 3) >> 3];
+		// 			end
+		//
+		// 			2'b01: //left
+		// 			begin
+		// 				point1 = bitmap[(entityY + 3) >> 3][(entityX - 4) >> 3];
+		// 				point2 = bitmap[(entityY - 4) >> 3][(entityX - 4) >> 3];
+		// 			end
+		//
+		// 			2'b10: //down
+		// 			begin
+		// 				point1 = bitmap[(entityY + 3) >> 3][(entityX - 4) >> 3];
+		// 				point2 = bitmap[(entityY + 3) >> 3][(entityX + 3) >> 3];
+		// 			end
+		//
+		// 			2'b11: //right
+		// 			begin
+		// 				point1 = bitmap[(entityY - 4) >> 3][(entityX + 3) >> 3];
+		// 				point2 = bitmap[(entityY + 3) >> 3][(entityX + 3) >> 3];
+		// 			end
+		// 		endcase
+		// 	future_allowed = point1&point2;
 	end
 
 // assign allowed = bitmap[entityY >> 3][entityX >> 3];

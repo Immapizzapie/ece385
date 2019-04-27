@@ -25,8 +25,8 @@ output logic [9:0]  spriteAddrY        // relative to the sprite, which pixel we
 
   parameter [9:0] maze_X_start = 10'd208;   // Center position on the X axis
   parameter [9:0] maze_Y_start = 10'd116;   // Center position on the Y axis
-  parameter [9:0] maze_width = 10'd224;       // Ball size
-  parameter [9:0] maze_height = 10'd248;       // Ball size
+  parameter [9:0] maze_width = 10'd223;       // Ball size
+  parameter [9:0] maze_height = 10'd247;       // Ball size
 
   //////// Do not modify the always_ff blocks. ////////
   // Detect rising edge of frame_clk
