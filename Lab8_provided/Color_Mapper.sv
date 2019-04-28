@@ -45,8 +45,8 @@ module color_mapper(input Clk,
 	logic [3:0] framecounter;
 	logic [3:0] framecounter_in;
 
-	logic [3:0] deathcounter;
-	logic [3:0] deathcounter_in;
+	logic [5:0] deathcounter;
+	logic [5:0] deathcounter_in;
 
 	logic [8:0] dumbcounter1;
 	logic [8:0] dumbcounter1_in;
@@ -68,8 +68,7 @@ always_ff @ (posedge frame_clk) begin
 		dumbcounter1 <= dumbcounter1_in;
 		dumbcounter2 <= dumbcounter2_in;
 		dumbcounter3 <= dumbcounter3_in;
-		if (deathcounter_in > deathcounter)
-			deathcounter <= deathcounter_in;
+		deathcounter <= deathcounter_in;
 	end
 end
 
@@ -81,67 +80,63 @@ always_comb begin
 	deathcounter_in = deathcounter;
 	if (lose_game)
 		begin
-			if (deathcounter != 11)
-				begin
-					deathcounter_in = deathcounter + 1;
-				end
+			if (deathcounter <= 32)
+				deathcounter_in = deathcounter + 1;
 			unique case (entity)
 				7'b0000001: //1 = pacman mouth open
 					begin
-						unique case (deathcounter)
-							4'd0: // start to die lmao
-								begin
-									spriteAddr = (spriteAddrX + 276) + ((spriteAddrY + 1) << 9);
-								end
-							4'd1:
-								begin
-									spriteAddr = (spriteAddrX + 292) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
-								end
-							4'd2:
-								begin
-									spriteAddr = (spriteAddrX + 308) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
-								end
-							4'd3:
-								begin
-									spriteAddr = (spriteAddrX + 324) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
-								end
-							4'd4:
-								begin
-									spriteAddr = (spriteAddrX + 340) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
-								end
-							4'd5:
-								begin
-									spriteAddr = (spriteAddrX + 356) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
-								end
-							4'd6:
-								begin
-									spriteAddr = (spriteAddrX + 372) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
-								end
-							4'd7:
-								begin
-									spriteAddr = (spriteAddrX + 388) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
-								end
-							4'd8:
-								begin
-									spriteAddr = (spriteAddrX + 404) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
-								end
-							4'd9:
-								begin
-									spriteAddr = (spriteAddrX + 420) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
-								end
-							4'd10: // explode
-								begin
-									spriteAddr = (spriteAddrX + 436) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
-								end
-							default: // dead
-								begin
-									spriteAddr = (spriteAddrX + 460) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
-								end
-						endcase
+						if (deathcounter >= 0 && deathcounter <= 2)
+							begin
+								spriteAddr = (spriteAddrX + 276) + ((spriteAddrY + 1) << 9);
+							end
+						else if (deathcounter >= 3 && deathcounter <= 5)
+							begin
+								spriteAddr = (spriteAddrX + 292) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+							end
+						else if (deathcounter >= 6 && deathcounter <= 8)
+							begin
+								spriteAddr = (spriteAddrX + 308) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+							end
+						else if (deathcounter >= 9 && deathcounter <= 11)
+							begin
+								spriteAddr = (spriteAddrX + 324) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+							end
+						else if (deathcounter >= 12 && deathcounter <= 14)
+							begin
+								spriteAddr = (spriteAddrX + 340) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+							end
+						else if (deathcounter >= 15 && deathcounter <= 17)
+							begin
+								spriteAddr = (spriteAddrX + 356) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+							end
+						else if (deathcounter >= 18 && deathcounter <= 20)
+							begin
+								spriteAddr = (spriteAddrX + 372) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+							end
+						else if (deathcounter >= 21 && deathcounter <= 23)
+							begin
+								spriteAddr = (spriteAddrX + 388) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+							end
+						else if (deathcounter >= 24 && deathcounter <= 26)
+							begin
+								spriteAddr = (spriteAddrX + 404) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+							end
+						else if (deathcounter >= 27 && deathcounter <= 29)
+							begin
+								spriteAddr = (spriteAddrX + 420) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+							end
+						else if (deathcounter >= 30 && deathcounter <= 32)
+							begin
+								spriteAddr = (spriteAddrX + 436) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+							end
+						else
+							begin
+								spriteAddr = (spriteAddrX + 460) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+							end
 						mazeAddr = mazeAddrX + (mazeAddrY << 9);
-						Red = color2[23:16];
-						Green = color2[15:8];
-						Blue = color2[7:0];
+						Red = color[23:16];
+						Green = color[15:8];
+						Blue = color[7:0];
 					end
 				7'b0000010: //2 = Background
 					begin
