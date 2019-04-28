@@ -4,13 +4,11 @@ module walls
 		input [9:0] entityX,
 		input [9:0] entityY,
 		input [1:0] direction,
-		input [1:0] future_direction,
-		input Clk,
-		output allowed,
-		output future_allowed
+		// input Clk,
+		output logic allowed
 );
 
-logic [2:0] bitmap [35:0][27:0];
+logic bitmap [35:0][27:0];
 logic point1, point2; //left, right
 
 	always_comb begin

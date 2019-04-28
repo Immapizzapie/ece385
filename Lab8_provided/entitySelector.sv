@@ -16,9 +16,13 @@ module entitySelector (
   input logic is_clyde,
   input logic [1:0] clydeDir,
   input logic [9:0] clydeX, clydeY,
+  input logic is_pellet,
+  input logic [9:0] DrawX, DrawY,
   output logic [6:0] out,
   output logic [1:0] entityDir,
-  output logic [9:0] entityX, entityY
+  output logic [9:0] entityX,
+  output logic [9:0] entityY,
+  output logic lose_game
 );
 
   always_comb
@@ -58,20 +62,33 @@ module entitySelector (
           entityY = clydeY;
           entityDir = clydeDir;
         end
-  		else if (is_maze)
+      else if (is_pellet)
+        begin
+          out = 7'b0000111;
+          entityX = 0;
+          entityY = 0;
+          entityDir = 0;
+        end
+      else if (is_maze)
         begin
           out = 7'b0000010;
           entityX = mazeX;
           entityY = mazeY;
           entityDir = 0;
         end
-  		else
+      else
         begin
           out = 7'b0000000;
           entityX = 0;
           entityY = 0;
           entityDir = 0;
         end
+
+      if(is_pacman&(is_blinky|is_pinky|is_inky|is_clyde))
+        lose_game = 1'b1;
+      else
+        lose_game = 1'b0;
+
     end
 
 endmodule

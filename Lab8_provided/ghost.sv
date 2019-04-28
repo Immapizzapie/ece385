@@ -49,8 +49,7 @@ output logic [1:0]  dir                 // what direction is pacman facing
   assign dir = curDir;
 
   logic allowed;
-  logic future_allowed;
-  walls ghost_maze_walls(.entity(3'b001), .entityX(ghost_X_Pos + ghost_X_Motion - 208 + 7), .entityY(ghost_Y_Pos + ghost_Y_Motion - 116 + 7), .direction(nextDir), .future_direction(future_dir), .Clk(Clk), .allowed(allowed), .future_allowed(future_allowed));
+  walls ghost_maze_walls(.entity(3'b001), .entityX(ghost_X_Pos + ghost_X_Motion - 208 + 7), .entityY(ghost_Y_Pos + ghost_Y_Motion - 116 + 7), .direction(curDir), .allowed(allowed));
 
   logic [31:0] randout;
   lsfr pseudorand(.clk_i(Clk), .rst_i(Reset), .ghosttype(ghosttype), .rand_o(randout));
@@ -117,40 +116,42 @@ output logic [1:0]  dir                 // what direction is pacman facing
 	 direction = randout%4;
 
     // Update position and motion only at rising edge of frame clock
-    if (frame_clk_rising_edge) begin // && ghost_X_Motion==10'b0 && ghost_Y_Motion==10'b0) begin
-      unique case (direction)
-        2'b00: // w
-          begin
-            ghost_Y_Motion_in = (~(ghost_Y_Step) + 1'b1);
-            ghost_X_Motion_in = 0;
-            nextDir = 0;
-          end
-        2'b01: // a
-          begin
-            ghost_X_Motion_in = (~(ghost_X_Step) + 1'b1);
-            ghost_Y_Motion_in = 0;
-            nextDir = 1;
-          end
-        2'b10: // s
-          begin
-            ghost_Y_Motion_in = ghost_Y_Step;
-            ghost_X_Motion_in = 0;
-            nextDir = 2;
-          end
-        2'b11: // d
-          begin
-            ghost_X_Motion_in = ghost_X_Step;
-            ghost_Y_Motion_in = 0;
-            nextDir = 3;
-          end
-        default:
-          begin
-            ghost_X_Motion_in = ghost_X_Motion;
-            ghost_Y_Motion_in = ghost_Y_Motion;
-				    nextDir = curDir;
-          end
-      endcase
-
+    if (frame_clk_rising_edge) begin
+      if (ghost_X_Motion_in==0 && ghost_Y_Motion_in==0)
+        begin
+          unique case (direction)
+            2'b00: // w
+              begin
+                ghost_Y_Motion_in = (~(ghost_Y_Step) + 1'b1);
+                ghost_X_Motion_in = 0;
+                nextDir = 0;
+              end
+            2'b01: // a
+              begin
+                ghost_X_Motion_in = (~(ghost_X_Step) + 1'b1);
+                ghost_Y_Motion_in = 0;
+                nextDir = 1;
+              end
+            2'b10: // s
+              begin
+                ghost_Y_Motion_in = ghost_Y_Step;
+                ghost_X_Motion_in = 0;
+                nextDir = 2;
+              end
+            2'b11: // d
+              begin
+                ghost_X_Motion_in = ghost_X_Step;
+                ghost_Y_Motion_in = 0;
+                nextDir = 3;
+              end
+            default:
+              begin
+                ghost_X_Motion_in = ghost_X_Motion;
+                ghost_Y_Motion_in = ghost_Y_Motion;
+    				    nextDir = curDir;
+              end
+          endcase
+        end
     // Be careful when using comparators with "logic" datatype because compiler treats
     //   both sides of the operator as UNSIGNED numbers.
     // e.g. ghost_Y_Pos - ghost_Size <= ghost_Y_Min
@@ -188,6 +189,13 @@ output logic [1:0]  dir                 // what direction is pacman facing
         // Update the pacman's position with its motion
         ghost_X_Pos_in = ghost_X_Pos + ghost_X_Motion;
         ghost_Y_Pos_in = ghost_Y_Pos + ghost_Y_Motion;
+      end
+    else
+      begin
+        ghost_X_Pos_in = ghost_X_Pos;
+        ghost_Y_Pos_in = ghost_Y_Pos;
+        ghost_Y_Motion_in = 0;
+        ghost_X_Motion_in = 0;
       end
     end
   end

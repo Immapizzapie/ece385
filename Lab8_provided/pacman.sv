@@ -22,11 +22,14 @@ module pacman ( input Clk,                // 50 MHz clock
 output logic  is_pacman,                // Whether current pixel belongs to ball or background
 output logic [9:0]  spriteAddrX,        // relative to the sprite, which pixel we are drawing
 output logic [9:0]  spriteAddrY,        // relative to the sprite, which pixel we are drawing
-output logic [1:0]  dir                 // what direction is pacman facing
+output logic [1:0]  dir,                 // what direction is pacman facing
+output logic [9:0] pacman_x_position,
+output logic [9:0] pacman_y_position
               );
 
   parameter [9:0] pacman_X_start = 10'd313;   // Center position on the X axis
-  parameter [9:0] pacman_Y_start = 10'd249;   // Center position on the Y axis (98+208,133+116)
+  parameter [9:0] pacman_Y_start = 10'd297;   // Center position on the Y axis (98+208,133+116)
+  // parameter [9:0] pacman_Y_start = 10'd249;   // Center position on the Y axis (98+208,133+116)
 
 //  parameter [9:0] pacman_X_Min = 10'd0;       // Leftmost point on the X axis
 //  parameter [9:0] pacman_X_Max = 10'd639;     // Rightmost point on the X axis
@@ -49,12 +52,17 @@ output logic [1:0]  dir                 // what direction is pacman facing
   logic [9:0] pacman_X_Motion_prev, pacman_Y_Motion_prev, prevDir;
 
   assign dir = prevDir;
+ assign pacman_x_position = pacman_X_Pos;
+ assign pacman_y_position = pacman_Y_Pos;
+
+  // assign pacman_x_position = 0;
+  // assign pacman_y_position = 0;
 
   logic [7:0] lastkey, lastkey_in;
 
   logic lol;
 
-  walls maze_walls(.entity(3'b001), .entityX(pacman_X_Pos + pacman_X_Motion - 208 + 7), .entityY(pacman_Y_Pos + pacman_Y_Motion - 116 + 7), .direction(curDir), .Clk(Clk), .allowed(allowed));
+  walls maze_walls(.entity(3'b001), .entityX(pacman_X_Pos + pacman_X_Motion - 208 + 7), .entityY(pacman_Y_Pos + pacman_Y_Motion - 116 + 7), .direction(curDir), .allowed(allowed));
 
   //////// Do not modify the always_ff blocks. ////////
   // Detect rising edge of frame_clk
@@ -69,6 +77,7 @@ output logic [1:0]  dir                 // what direction is pacman facing
       begin
         pacman_X_Pos <= pacman_X_start;
         pacman_Y_Pos <= pacman_Y_start;
+        // pacman_X_Motion <= 10'd1;
         pacman_X_Motion <= 10'd0;
         pacman_Y_Motion <= 10'd0;
   		  curDir <= 3;

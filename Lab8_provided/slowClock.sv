@@ -17,7 +17,7 @@ module slowClock (
 			counter <= 25'b0;
 			Clk_slow <= 1'b0;
 		end
-		else if (counter == 25'd12999999) begin
+		else if (counter == 25'd1000000) begin
 			counter <= 25'b0;
 			Clk_slow <= ~Clk_slow;
 		end else begin

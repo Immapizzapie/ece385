@@ -111,12 +111,12 @@ always_comb begin
 
 				if (color == 24'h000000)
 					begin
-						Red = dumbcounter1;
-						Green = dumbcounter2;
-						Blue = dumbcounter3;
-						// Red = color2[23:16];
-						// Green = color2[15:8];
-						// Blue = color2[7:0];
+						// Red = dumbcounter1;
+						// Green = dumbcounter2;
+						// Blue = dumbcounter3;
+						Red = color2[23:16];
+						Green = color2[15:8];
+						Blue = color2[7:0];
 //						if (color2 == 24'h000000)
 //							begin
 //								Red = color2[23:16];
@@ -398,6 +398,14 @@ always_comb begin
 						Green = color[15:8];
 						Blue = color[7:0];
 					end
+			end
+		7'b0000111: //3 = pellet
+			begin
+				spriteAddr = 0;
+				mazeAddr = 0;
+				Red = 8'hfa;
+				Green = 8'hb9;
+				Blue = 8'hb0;
 			end
 		default:
 			begin
