@@ -52,6 +52,10 @@ module lab8( input               CLOCK_50,
     assign Clk = CLOCK_50;
     always_ff @ (posedge Clk) begin
         Reset_h <= ~(KEY[0]);        // The push buttons are active low
+        if (~KEY[0])
+          lose_game <= 0;
+        if (lose_game_in)
+          lose_game <= lose_game_in;
     end
 
     logic [1:0] hpi_addr;
@@ -124,8 +128,9 @@ module lab8( input               CLOCK_50,
   logic is_pacman;
   logic [9:0] pacmanX;
   logic [9:0] pacmanY;
+  logic [9:0] pacman_x_position, pacman_y_position;
   logic [1:0] pacmanDir;
-  pacman PacMan(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS), .DrawX(DrawX), .DrawY(DrawY), .keycode(keycode), .is_pacman(is_pacman), .spriteAddrX(pacmanX), .spriteAddrY(pacmanY), .dir(pacmanDir));
+  pacman PacMan(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS), .DrawX(DrawX), .DrawY(DrawY), .keycode(keycode), .is_pacman(is_pacman), .spriteAddrX(pacmanX), .spriteAddrY(pacmanY), .dir(pacmanDir), .pacman_x_position(pacman_x_position), .pacman_y_position(pacman_y_position), .lose_game(lose_game));
 
   logic is_blinky;
   logic [9:0] blinkyX;
@@ -151,13 +156,18 @@ module lab8( input               CLOCK_50,
   logic [1:0] clydeDir;
   ghost clyde(.Clk(Clk), .Reset(Reset_h), .frame_clk(slClk), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b11), .is_ghost(is_clyde), .spriteAddrX(clydeX), .spriteAddrY(clydeY), .dir(clydeDir));
 
+  logic is_pellet, win_game;
+  pellets pellet(.Clk(Clk), .Reset(Reset_h), .pacman_X(pacman_x_position - 208 + 7), .pacman_Y(pacman_y_position - 116 + 7), .DrawX(DrawX), .DrawY(DrawY), .is_pellet(is_pellet), .win_game(win_game));
+
   logic [6:0] entity;
   logic [9:0] entityX;
   logic [9:0] entityY;
   logic [1:0] entityDir;
-  entitySelector selectEntity(.is_maze(is_maze), .mazeX(mazeX), .mazeY(mazeY), .is_pacman(is_pacman), .pacmanDir(pacmanDir), .pacmanX(pacmanX), .pacmanY(pacmanY), .is_blinky(is_blinky), .blinkyDir(blinkyDir), .blinkyX(blinkyX), .blinkyY(blinkyY), .is_pinky(is_pinky), .pinkyDir(pinkyDir), .pinkyX(pinkyX), .pinkyY(pinkyY), .is_inky(is_inky), .inkyDir(inkyDir), .inkyX(inkyX), .inkyY(inkyY), .is_clyde(is_clyde), .clydeDir(clydeDir), .clydeX(clydeX), .clydeY(clydeY), .out(entity), .entityX(entityX), .entityY(entityY), .entityDir(entityDir));
+  logic lose_game;
+  logic lose_game_in;
+  entitySelector selectEntity(.is_maze(is_maze), .mazeX(mazeX), .mazeY(mazeY), .is_pacman(is_pacman), .pacmanDir(pacmanDir), .pacmanX(pacmanX), .pacmanY(pacmanY), .is_blinky(is_blinky), .blinkyDir(blinkyDir), .blinkyX(blinkyX), .blinkyY(blinkyY), .is_pinky(is_pinky), .pinkyDir(pinkyDir), .pinkyX(pinkyX), .pinkyY(pinkyY), .is_inky(is_inky), .inkyDir(inkyDir), .inkyX(inkyX), .inkyY(inkyY), .is_clyde(is_clyde), .clydeDir(clydeDir), .clydeX(clydeX), .clydeY(clydeY), .is_pellet(is_pellet), .DrawX(DrawX), .DrawY(DrawY),  .out(entity), .entityX(entityX), .entityY(entityY), .entityDir(entityDir), .lose_game(lose_game_in));
 
-  color_mapper color_instance(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS), .entity(entity), .spriteAddrX(entityX), .spriteAddrY(entityY), .mazeAddrX(mazeX), .mazeAddrY(mazeY), .direction(entityDir), .DrawX(DrawX), .DrawY(DrawY), .VGA_R(VGA_R), .VGA_G(VGA_G), .VGA_B(VGA_B));
+  color_mapper color_instance(.Clk(Clk), .Reset(Reset_h), .frame_clk(VGA_VS), .entity(entity), .spriteAddrX(entityX), .spriteAddrY(entityY), .mazeAddrX(mazeX), .mazeAddrY(mazeY), .direction(entityDir), .DrawX(DrawX), .lose_game(lose_game), .DrawY(DrawY), .VGA_R(VGA_R), .VGA_G(VGA_G), .VGA_B(VGA_B));
 
   // Display keycode on hex display
   HexDriver hex_inst_0 (keycode[3:0], HEX0);
