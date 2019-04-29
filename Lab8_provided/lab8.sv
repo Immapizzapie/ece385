@@ -136,25 +136,25 @@ module lab8( input               CLOCK_50,
   logic [9:0] blinkyX;
   logic [9:0] blinkyY;
   logic [1:0] blinkyDir;
-  ghost blinky(.Clk(Clk), .Reset(Reset_h), .frame_clk(slClk), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b00), .is_ghost(is_blinky), .spriteAddrX(blinkyX), .spriteAddrY(blinkyY), .dir(blinkyDir));
+  ghost blinky(.Clk(Clk), .Reset(Reset_h), .frame_clk(slClk), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b00), .is_ghost(is_blinky), .spriteAddrX(blinkyX), .spriteAddrY(blinkyY), .dir(blinkyDir), .lose_game(lose_game));
 
   logic is_pinky;
   logic [9:0] pinkyX;
   logic [9:0] pinkyY;
   logic [1:0] pinkyDir;
-  ghost pinky(.Clk(Clk), .Reset(Reset_h), .frame_clk(slClk), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b01), .is_ghost(is_pinky), .spriteAddrX(pinkyX), .spriteAddrY(pinkyY), .dir(pinkyDir));
+  ghost pinky(.Clk(Clk), .Reset(Reset_h), .frame_clk(slClk), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b01), .is_ghost(is_pinky), .spriteAddrX(pinkyX), .spriteAddrY(pinkyY), .dir(pinkyDir), .lose_game(lose_game));
 
   logic is_inky;
   logic [9:0] inkyX;
   logic [9:0] inkyY;
   logic [1:0] inkyDir;
-  ghost inky(.Clk(Clk), .Reset(Reset_h), .frame_clk(slClk), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b10), .is_ghost(is_inky), .spriteAddrX(inkyX), .spriteAddrY(inkyY), .dir(inkyDir));
+  ghost inky(.Clk(Clk), .Reset(Reset_h), .frame_clk(slClk), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b10), .is_ghost(is_inky), .spriteAddrX(inkyX), .spriteAddrY(inkyY), .dir(inkyDir), .lose_game(lose_game));
 
   logic is_clyde;
   logic [9:0] clydeX;
   logic [9:0] clydeY;
   logic [1:0] clydeDir;
-  ghost clyde(.Clk(Clk), .Reset(Reset_h), .frame_clk(slClk), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b11), .is_ghost(is_clyde), .spriteAddrX(clydeX), .spriteAddrY(clydeY), .dir(clydeDir));
+  ghost clyde(.Clk(Clk), .Reset(Reset_h), .frame_clk(slClk), .DrawX(DrawX), .DrawY(DrawY), .ghosttype(2'b11), .is_ghost(is_clyde), .spriteAddrX(clydeX), .spriteAddrY(clydeY), .dir(clydeDir), .lose_game(lose_game));
 
   logic is_pellet, win_game;
   pellets pellet(.Clk(Clk), .Reset(Reset_h), .pacman_X(pacman_x_position - 208 + 7), .pacman_Y(pacman_y_position - 116 + 7), .DrawX(DrawX), .DrawY(DrawY), .is_pellet(is_pellet), .win_game(win_game));
