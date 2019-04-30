@@ -96,12 +96,17 @@ output logic [9:0] pacman_y_position
       end
     else
       begin
-        if (lose_game|win_game)
+        if (lose_game == 1 || win_game == 1)
           begin
+            if (win_game)
+              begin
+                pacman_X_Pos <= pacman_X_Pos_in;
+                pacman_Y_Pos <= pacman_Y_Pos_in;
+              end
             pacman_X_Motion <= 0;
             pacman_Y_Motion <= 0;
           end
-        if (allowed)
+        else if (allowed)
           begin
             pacman_X_Pos <= pacman_X_Pos_in;
             pacman_Y_Pos <= pacman_Y_Pos_in;
@@ -249,42 +254,6 @@ output logic [9:0] pacman_y_position
         pacman_Y_Pos_in = pacman_Y_Pos + pacman_Y_Motion;
       end
 
-    // else if (lastkey != 8'h00 && lol) // we have something queued
-    //   begin
-    //     unique case (lastkey) // For our NEXT step, we will utilize the changed direction
-    //       8'h1a: // w
-    //         begin
-    //           nextDir = 0;
-    //           pacman_Y_Motion_in = (~(pacman_Y_Step) + 1'b1);
-    //           pacman_X_Motion_in = 0;
-    //         end
-    //       8'h04: // a
-    //         begin
-    //           nextDir = 1;
-    //           pacman_X_Motion_in = (~(pacman_X_Step) + 1'b1);
-    //           pacman_Y_Motion_in = 0;
-    //         end
-    //       8'h16: // s
-    //         begin
-    //           nextDir = 2;
-    //           pacman_Y_Motion_in = pacman_Y_Step;
-    //           pacman_X_Motion_in = 0;
-    //         end
-    //       8'h07: // d
-    //         begin
-    //           nextDir = 3;
-    //           pacman_X_Motion_in = pacman_X_Step;
-    //           pacman_Y_Motion_in = 0;
-    //         end
-    //       default:
-    //         begin
-    //           nextDir = prevDir;
-    //           pacman_X_Motion_in = pacman_X_Motion_prev;
-    //           pacman_Y_Motion_in = pacman_Y_Motion_prev;
-    //         end
-    //     endcase
-    //   end
-
     else if (allowed)
       begin
         // Update the pacman's position with its motion
@@ -334,7 +303,7 @@ always_comb begin
   is_pacman = 0;
   spriteAddrX = 1'b0;
   spriteAddrY = 1'b0;
-  if (lose_game|win_game)
+  if (lose_game)
     begin
       if (DrawX >= pacman_X_Pos && DrawX <= pacman_X_Pos + pacman_Size)
         begin
@@ -347,6 +316,19 @@ always_comb begin
         end
     end
   else
+  if (win_game)
+    begin
+      if (DrawX >= pacman_X_Pos && DrawX < pacman_X_Pos + 32)
+        begin
+          if (DrawY >= pacman_Y_Pos && DrawY < pacman_Y_Pos + 32)
+            begin
+              is_pacman = 1;
+              spriteAddrX = DrawX - pacman_X_Pos;
+              spriteAddrY = DrawY - pacman_Y_Pos;
+            end
+        end
+    end
+    else
     begin
       if (DrawX >= pacman_X_Pos && DrawX < pacman_X_Pos + pacman_Size)
         begin

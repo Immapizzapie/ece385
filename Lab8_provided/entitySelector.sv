@@ -1,23 +1,28 @@
 module entitySelector (
-  input logic is_maze,
-  input logic [9:0] mazeX, mazeY,
-  input logic is_pacman,
-  input logic [1:0] pacmanDir,
-  input logic [9:0] pacmanX, pacmanY,
-  input logic is_blinky,
-  input logic [1:0] blinkyDir,
-  input logic [9:0] blinkyX, blinkyY,
-  input logic is_pinky,
-  input logic [1:0] pinkyDir,
-  input logic [9:0] pinkyX, pinkyY,
-  input logic is_inky,
-  input logic [1:0] inkyDir,
-  input logic [9:0] inkyX, inkyY,
-  input logic is_clyde,
-  input logic [1:0] clydeDir,
-  input logic [9:0] clydeX, clydeY,
-  input logic is_pellet,
-  input logic [9:0] DrawX, DrawY,
+  input is_maze,
+  input [9:0] mazeX, mazeY,
+  input is_pacman,
+  input [1:0] pacmanDir,
+  input [9:0] pacmanX, pacmanY,
+  input is_blinky,
+  input [1:0] blinkyDir,
+  input [9:0] blinkyX, blinkyY,
+  input is_pinky,
+  input [1:0] pinkyDir,
+  input [9:0] pinkyX, pinkyY,
+  input is_inky,
+  input [1:0] inkyDir,
+  input [9:0] inkyX, inkyY,
+  input is_clyde,
+  input [1:0] clydeDir,
+  input [9:0] clydeX, clydeY,
+  input is_pellet,
+  input [9:0] DrawX, DrawY,
+  input [3:0] ones,
+  input [3:0] tens,
+  input [3:0] hunds,
+  input [3:0] thous,
+  input [3:0] tenthous,
   output logic [6:0] out,
   output logic [1:0] entityDir,
   output logic [9:0] entityX,
@@ -84,7 +89,7 @@ module entitySelector (
           entityDir = 0;
         end
 
-      if(is_pacman&(is_blinky|is_pinky|is_inky|is_clyde))
+      if(is_pacman && (is_blinky||is_pinky||is_inky||is_clyde))
         lose_game = 1'b1;
       else
         lose_game = 1'b0;

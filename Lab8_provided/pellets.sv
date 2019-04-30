@@ -4,7 +4,12 @@ module pellets
 		input [9:0] pacman_X, pacman_Y,
     input [9:0] DrawX, DrawY,
     output logic is_pellet,
-    output logic win_game
+    output logic win_game,
+    output logic [3:0] ones,
+    output logic [3:0] tens,
+    output logic [3:0] hunds,
+    output logic [3:0] thous,
+    output logic [3:0] tenthous
 );
 
 logic bitmap [35:0][27:0];
@@ -13,8 +18,23 @@ logic [4:0] tileX, tileY;
 logic [2:0] tilePixelX, tilePixelY;
 logic [7:0] counter, counter_in;
 
+logic [3:0] onecounter, tencounter, hundcounter, thoucounter, tenthoucounter;
+logic [3:0] onecounter_in, tencounter_in, hundcounter_in, thoucounter_in, tenthoucounter_in;
+
+assign ones = onecounter;
+assign tens = tencounter;
+assign hunds = hundcounter;
+assign thous = thoucounter;
+assign tenthous = tenthoucounter;
+
   always_ff @ (posedge Clk) begin
   	if (Reset) begin
+      onecounter <= 0;
+      tencounter <= 0;
+      hundcounter <= 0;
+      thoucounter <= 0;
+      tenthoucounter <= 0;
+
   		counter <= 8'd244;
       bitmap[0]  <= '{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
       bitmap[1]  <= '{0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0};
@@ -55,17 +75,47 @@ logic [7:0] counter, counter_in;
   end
 
 	always_comb begin
+    onecounter_in = onecounter;
+    tencounter_in = tencounter;
+    hundcounter_in = hundcounter;
+    thoucounter_in = thoucounter;
+    tenthoucounter_in = tenthoucounter;
+
     bitmap_in = bitmap;
 
     counter_in = counter;
     win_game = 1'b0;
+
     if(bitmap[pacman_Y >> 3][pacman_X >> 3]==1'b1)
-      counter_in = counter - 1;
+      begin
+        counter_in = counter - 1;
+        onecounter_in = onecounter + 1;
+        if (onecounter == 9)
+          begin
+            onecounter_in = 0;
+            tencounter_in = tencounter + 1;
+            if (tencounter == 9)
+            begin
+              tencounter_in = 0;
+              hundcounter_in = hundcounter + 1;
+              if (hundcounter == 9)
+              begin
+                hundcounter_in = -;
+                thoucounter_in = thoucounter + 1;
+                if (thoucounter == 9)
+                begin
+                  thoucounter_in = 0;
+                  tenthoucounter_in = tenthoucounter + 1;
+                end
+              end
+            end
+          end
+      end
+
+    bitmap_in[pacman_Y >> 3][pacman_X >> 3]  = 1'b0;
 
     if(counter==8'd0)
       win_game = 1'b1;
-
-    bitmap_in[pacman_Y >> 3][pacman_X >> 3]  = 1'b0;
 
     is_pellet = 1'b0;
     tileX = (DrawX-10'd208) >> 3;
