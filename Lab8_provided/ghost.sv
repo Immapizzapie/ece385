@@ -104,8 +104,8 @@ output logic [1:0]  dir                 // what direction is pacman facing
 		  curDir <= nextDir;
       if(game_over)
         begin
-          ghost_X_Pos <= pacmanX;
-          ghost_Y_Pos <= pacmanY;
+          ghost_X_Pos <= 0;
+          ghost_Y_Pos <= 0;
         end
     end
   end

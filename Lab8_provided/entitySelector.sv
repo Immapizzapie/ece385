@@ -18,11 +18,16 @@ module entitySelector (
   input [9:0] clydeX, clydeY,
   input is_pellet,
   input [9:0] DrawX, DrawY,
-  input [3:0] ones,
-  input [3:0] tens,
-  input [3:0] hunds,
-  input [3:0] thous,
-  input [3:0] tenthous,
+  input is_ones,
+  input [9:0] onesX, onesY,
+  input is_tens,
+  input [9:0] tensX, tensY,
+  input is_hunds,
+  input [9:0] hundsX, hundsY,
+  input is_thous,
+  input [9:0] thousX, thousY,
+  input is_tenthous,
+  input [9:0] tenthousX, tenthousY,
   output logic [6:0] out,
   output logic [1:0] entityDir,
   output logic [9:0] entityX,
@@ -79,6 +84,41 @@ module entitySelector (
           out = 7'b0000010;
           entityX = mazeX;
           entityY = mazeY;
+          entityDir = 0;
+        end
+      else if (is_ones)
+        begin
+          out = 7'b0001000;
+          entityX = onesX;
+          entityY = onesY;
+          entityDir = 0;
+        end
+      else if (is_tens)
+        begin
+          out = 7'b0001001;
+          entityX = tensX;
+          entityY = tensY;
+          entityDir = 0;
+        end
+      else if (is_hunds)
+        begin
+          out = 7'b0001010;
+          entityX = hundsX;
+          entityY = hundsY;
+          entityDir = 0;
+        end
+      else if (is_thous)
+        begin
+          out = 7'b0001011;
+          entityX = thousX;
+          entityY = thousY;
+          entityDir = 0;
+        end
+      else if (is_tenthous)
+        begin
+          out = 7'b0001100;
+          entityX = tenthousX;
+          entityY = tenthousY;
           entityDir = 0;
         end
       else

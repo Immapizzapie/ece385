@@ -26,6 +26,11 @@ module color_mapper(input Clk,
 							input [1:0] direction,
 							input win_game,
 							input lose_game,
+							input [3:0] ones,
+						  input [3:0] tens,
+						  input [3:0] hunds,
+						  input [3:0] thous,
+						  input [3:0] tenthous,
 			output logic [7:0]	VGA_R, VGA_G, VGA_B // VGA RGB output
 );
 
@@ -475,6 +480,276 @@ always_comb begin
 						Green = 8'hb9;
 						Blue = 8'hb0;
 					end
+				7'b0001000: // ones
+					begin
+						spriteAddr = 0;
+						mazeAddr = mazeAddrX + (mazeAddrY << 9);
+						unique case (ones)
+							4'd0:
+								begin
+									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+								end
+							4'd1:
+								begin
+									spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+								end
+							4'd2:
+								begin
+									spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+								end
+							4'd3:
+								begin
+									spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+								end
+							4'd4:
+								begin
+									spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+								end
+							4'd5:
+								begin
+									spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+								end
+							4'd6:
+								begin
+									spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+								end
+							4'd7:
+								begin
+									spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+								end
+							4'd8:
+								begin
+									spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+								end
+							4'd9:
+								begin
+									spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+								end
+							default:
+								begin
+									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+								end
+						endcase
+						Red = color[23:16];
+						Green = color[15:8];
+						Blue = color[7:0];
+					end
+				7'b0001001: // tens
+					begin
+						spriteAddr = 0;
+						mazeAddr = mazeAddrX + (mazeAddrY << 9);
+						unique case (tens)
+							4'd0:
+								begin
+									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+								end
+							4'd1:
+								begin
+									spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+								end
+							4'd2:
+								begin
+									spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+								end
+							4'd3:
+								begin
+									spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+								end
+							4'd4:
+								begin
+									spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+								end
+							4'd5:
+								begin
+									spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+								end
+							4'd6:
+								begin
+									spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+								end
+							4'd7:
+								begin
+									spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+								end
+							4'd8:
+								begin
+									spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+								end
+							4'd9:
+								begin
+									spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+								end
+							default:
+								begin
+									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+								end
+						endcase
+						Red = color[23:16];
+						Green = color[15:8];
+						Blue = color[7:0];
+					end
+				7'b0001010: // hunds
+					begin
+						spriteAddr = 0;
+						mazeAddr = mazeAddrX + (mazeAddrY << 9);
+						unique case (hunds)
+							4'd0:
+								begin
+									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+								end
+							4'd1:
+								begin
+									spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+								end
+							4'd2:
+								begin
+									spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+								end
+							4'd3:
+								begin
+									spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+								end
+							4'd4:
+								begin
+									spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+								end
+							4'd5:
+								begin
+									spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+								end
+							4'd6:
+								begin
+									spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+								end
+							4'd7:
+								begin
+									spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+								end
+							4'd8:
+								begin
+									spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+								end
+							4'd9:
+								begin
+									spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+								end
+							default:
+								begin
+									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+								end
+						endcase
+						Red = color[23:16];
+						Green = color[15:8];
+						Blue = color[7:0];
+					end
+				7'b0001011: // thous
+					begin
+						spriteAddr = 0;
+						mazeAddr = mazeAddrX + (mazeAddrY << 9);
+						unique case (thous)
+							4'd0:
+								begin
+									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+								end
+							4'd1:
+								begin
+									spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+								end
+							4'd2:
+								begin
+									spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+								end
+							4'd3:
+								begin
+									spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+								end
+							4'd4:
+								begin
+									spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+								end
+							4'd5:
+								begin
+									spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+								end
+							4'd6:
+								begin
+									spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+								end
+							4'd7:
+								begin
+									spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+								end
+							4'd8:
+								begin
+									spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+								end
+							4'd9:
+								begin
+									spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+								end
+							default:
+								begin
+									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+								end
+						endcase
+						Red = color[23:16];
+						Green = color[15:8];
+						Blue = color[7:0];
+					end
+				7'b0001100: // tenthous
+					begin
+						spriteAddr = 0;
+						mazeAddr = mazeAddrX + (mazeAddrY << 9);
+						unique case (tenthous)
+							4'd0:
+								begin
+									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+								end
+							4'd1:
+								begin
+									spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+								end
+							4'd2:
+								begin
+									spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+								end
+							4'd3:
+								begin
+									spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+								end
+							4'd4:
+								begin
+									spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+								end
+							4'd5:
+								begin
+									spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+								end
+							4'd6:
+								begin
+									spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+								end
+							4'd7:
+								begin
+									spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+								end
+							4'd8:
+								begin
+									spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+								end
+							4'd9:
+								begin
+									spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+								end
+							default:
+								begin
+									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+								end
+						endcase
+						Red = color[23:16];
+						Green = color[15:8];
+						Blue = color[7:0];
+					end
 				default:
 					begin
 						spriteAddr = 0;
@@ -485,6 +760,15 @@ always_comb begin
 						Blue = dumbcounter3;
 					end
 				endcase
+			end
+
+			// 371 174
+			// 41 7
+			if (278<=DrawX && DrawX<319 && 107<=DrawY && DrawY<=115) begin
+				spriteAddr = (DrawX-278+370) + ((DrawY-107+176)<<9);
+				Red = color[23:16];
+				Green = color[15:8];
+				Blue = color[7:0];
 			end
 end
 

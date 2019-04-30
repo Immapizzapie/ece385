@@ -71,6 +71,11 @@ assign tenthous = tenthoucounter;
   	else begin
   		counter <= counter_in;
       bitmap <= bitmap_in;
+      onecounter <= onecounter_in;
+      tencounter <= tencounter_in;
+      hundcounter <= hundcounter_in;
+      thoucounter <= thoucounter_in;
+      tenthoucounter <= tenthoucounter_in;
   	end
   end
 
@@ -82,8 +87,8 @@ assign tenthous = tenthoucounter;
     tenthoucounter_in = tenthoucounter;
 
     bitmap_in = bitmap;
-
     counter_in = counter;
+
     win_game = 1'b0;
 
     if(bitmap[pacman_Y >> 3][pacman_X >> 3]==1'b1)
@@ -95,26 +100,26 @@ assign tenthous = tenthoucounter;
             onecounter_in = 0;
             tencounter_in = tencounter + 1;
             if (tencounter == 9)
-            begin
-              tencounter_in = 0;
-              hundcounter_in = hundcounter + 1;
-              if (hundcounter == 9)
               begin
-                hundcounter_in = -;
-                thoucounter_in = thoucounter + 1;
-                if (thoucounter == 9)
-                begin
-                  thoucounter_in = 0;
-                  tenthoucounter_in = tenthoucounter + 1;
-                end
+                tencounter_in = 0;
+                hundcounter_in = hundcounter + 1;
+                if (hundcounter == 9)
+                  begin
+                    hundcounter_in = 0;
+                    thoucounter_in = thoucounter + 1;
+                    if (thoucounter == 9)
+                      begin
+                        thoucounter_in = 0;
+                        tenthoucounter_in = tenthoucounter + 1;
+                      end
+                  end
               end
-            end
           end
       end
 
-    bitmap_in[pacman_Y >> 3][pacman_X >> 3]  = 1'b0;
+    bitmap_in[pacman_Y >> 3][pacman_X >> 3] = 1'b0;
 
-    if(counter==8'd0)
+    if(counter > 8'd244 || counter == 0)
       win_game = 1'b1;
 
     is_pellet = 1'b0;
