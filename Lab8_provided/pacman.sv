@@ -20,6 +20,7 @@ module pacman ( input Clk,                // 50 MHz clock
       input [9:0]   DrawX, DrawY,       // Current pixel coordinates
       input [7:0]   keycode,            // scancode of key pressed
       input lose_game,
+      input win_game,
 output logic  is_pacman,                // Whether current pixel belongs to ball or background
 output logic [9:0]  spriteAddrX,        // relative to the sprite, which pixel we are drawing
 output logic [9:0]  spriteAddrY,        // relative to the sprite, which pixel we are drawing
@@ -95,7 +96,7 @@ output logic [9:0] pacman_y_position
       end
     else
       begin
-        if (lose_game)
+        if (lose_game|win_game)
           begin
             pacman_X_Motion <= 0;
             pacman_Y_Motion <= 0;
@@ -333,7 +334,7 @@ always_comb begin
   is_pacman = 0;
   spriteAddrX = 1'b0;
   spriteAddrY = 1'b0;
-  if (lose_game)
+  if (lose_game|win_game)
     begin
       if (DrawX >= pacman_X_Pos && DrawX <= pacman_X_Pos + pacman_Size)
         begin

@@ -24,6 +24,7 @@ module color_mapper(input Clk,
 							input	[9:0] mazeAddrX,				// relative addresses for sprites
 							input	[9:0] mazeAddrY,
 							input [1:0] direction,
+							input win_game,
 							input lose_game,
 			output logic [7:0]	VGA_R, VGA_G, VGA_B // VGA RGB output
 );
@@ -72,20 +73,21 @@ always_ff @ (posedge frame_clk) begin
 		dumbcounter2 <= 444;
 		dumbcounter3 <= 0;
 		deathcounter <= 0;
-		dumbdeathcounter <= 0;
+		// dumbdeathcounter <= 0;
 	end
 	else begin
 		framecounter <= framecounter_in;
 		dumbcounter1 <= dumbcounter1_in;
 		dumbcounter2 <= dumbcounter2_in;
 		dumbcounter3 <= dumbcounter3_in;
+		if(lose_game && deathcounter<63)
+			deathcounter <= deathcounter+1;
+		// dumbdeathcounter <= dumbdeathcounter_in;
 
-		dumbdeathcounter <= dumbdeathcounter_in;
-		
-		if (dumbdeathcounter == 3)
-			begin
-				deathcounter <= deathcounter_in;
-			end
+		// if (dumbdeathcounter == 3)
+		// 	begin
+		// 		deathcounter <= deathcounter_in;
+		// 	end
 	end
 end
 
@@ -94,14 +96,14 @@ always_comb begin
 	dumbcounter1_in = dumbcounter1 + 1;
 	dumbcounter2_in = dumbcounter2 + 2;
 	dumbcounter3_in = dumbcounter3 + 3;
-	deathcounter_in = deathcounter;
-	dumbdeathcounter_in = dumbdeathcounter + 1;
+	// deathcounter_in = deathcounter;
+	// dumbdeathcounter_in = dumbdeathcounter + 1;
 	if (lose_game)
 		begin
-			if (frame_clk_rising_edge)
-				begin
-					deathcounter_in = (deathcounter < 60) ? deathcounter + 1 : 0;
-				end
+			// if (frame_clk_rising_edge)
+			// 	begin
+			// 		deathcounter_in = (deathcounter < 60) ? deathcounter + 1 : 0;
+			// 	end
 
 			unique case (entity)
 				7'b0000001: //1 = pacman mouth open
@@ -186,6 +188,61 @@ always_comb begin
 					end
 			endcase
 		end
+	if (win_game) begin
+		if(entity == 7'b01) begin
+			mazeAddr = mazeAddrX + (mazeAddrY << 9);
+			if (framecounter >= 0 && framecounter <= 3)
+					spriteAddr = (spriteAddrX + 261) + ((spriteAddrY + 0) << 9); // 34, 2 for top left
+			else if (framecounter >= 8 && framecounter <= 12)
+				begin
+					unique case (direction)
+						2'd0: // going up
+							spriteAddr = (spriteAddrX + 229) + ((spriteAddrY + 31) << 9); // 70, 190 for top left
+						2'd1: // going left
+							spriteAddr = (spriteAddrX + 228) + ((spriteAddrY + 16) << 9); // 72, 77 for top left
+						2'd2: // going down
+							spriteAddr = (spriteAddrX + 229) + ((spriteAddrY + 49) << 9); // 34, 2 for top left
+						2'd3: // going right
+							spriteAddr = (spriteAddrX + 229) + ((spriteAddrY + 0) << 9); // 107, 40 for top left
+						default:
+							spriteAddr = (spriteAddrX + 261) + ((spriteAddrY + 0) << 9); // 34, 2 for top left
+						endcase
+				end
+			else
+				begin
+					unique case (direction)
+						2'd0: // going up
+							spriteAddr = (spriteAddrX + 245) + ((spriteAddrY + 32) << 9); // 70, 190 for top left
+						2'd1: // going left
+							spriteAddr = (spriteAddrX + 245) + ((spriteAddrY + 16) << 9); // 72, 77 for top left
+						2'd2: // going down
+							spriteAddr = (spriteAddrX + 245) + ((spriteAddrY + 47) << 9); // 34, 2 for top left
+						2'd3: // going right
+							spriteAddr = (spriteAddrX + 245) + ((spriteAddrY + 0) << 9); // 107, 40 for top left
+						default:
+							spriteAddr = (spriteAddrX + 261) + ((spriteAddrY + 0) << 9); // 34, 2 for top left
+					endcase
+				end
+			Red = color[23:16];
+			Green = color[15:8];
+			Blue = color[7:0];
+		end
+		else begin
+			mazeAddr = 0;
+			if (290<DrawX && DrawX<349 && 235<DrawY && DrawY<244) begin
+				spriteAddr = (DrawX-291+370) + ((DrawY-236+216)<<9);
+				Red = color[23:16];
+				Green = color[15:8];
+				Blue = color[7:0];
+			end
+			else begin
+				spriteAddr = 0;
+				Red = 8'h00;
+				Green = 8'h00;
+				Blue = 8'h00;
+			end
+		end
+	end
 	else
 		begin
 			unique case (entity)
@@ -227,29 +284,9 @@ always_comb begin
 
 						if (color == 24'h000000)
 							begin
-								// Red = dumbcounter1;
-								// Green = dumbcounter2;
-								// Blue = dumbcounter3;
 								Red = color2[23:16];
 								Green = color2[15:8];
 								Blue = color2[7:0];
-		//						if (color2 == 24'h000000)
-		//							begin
-		//								Red = color2[23:16];
-		//								Green = color2[15:8];
-		//								Blue = color2[7:0];
-		//							end
-		//							begin
-		//								Red = dumbcounter1;
-		//								Green = dumbcounter2;
-		//								Blue = dumbcounter3;
-		//							end
-		//						else
-		//							begin
-		//								Red = color2[23:16];
-		//								Green = color2[15:8];
-		//								Blue = color2[7:0];
-		//							end
 							end
 						else
 							begin

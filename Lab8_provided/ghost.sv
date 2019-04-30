@@ -19,7 +19,7 @@ module ghost ( input Clk,                // 50 MHz clock
                     frame_clk,          // The clock indicating a new frame (~60Hz)
       input [9:0]   DrawX, DrawY,       // Current pixel coordinates
       input [1:0]   ghosttype,
-      input lose_game,
+      input game_over,
 output logic  is_ghost,          // Whether current pixel belongs to ball or background
 output logic [9:0]  spriteAddrX,        // relative to the sprite, which pixel we are drawing
 output logic [9:0]  spriteAddrY,        // relative to the sprite, which pixel we are drawing
@@ -100,7 +100,7 @@ output logic [1:0]  dir                 // what direction is pacman facing
       ghost_X_Motion <= ghost_X_Motion_in;
       ghost_Y_Motion <= ghost_Y_Motion_in;
 		  curDir <= nextDir;
-      if(lose_game)
+      if(game_over)
         begin
           ghost_X_Pos <= 0;
           ghost_Y_Pos <= 0;

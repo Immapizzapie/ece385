@@ -59,12 +59,12 @@ logic [7:0] counter, counter_in;
 
     counter_in = counter;
     win_game = 1'b0;
-    if(bitmap[pacman_Y >> 3][pacman_X >> 3]==1'b1) begin
+    if(bitmap[pacman_Y >> 3][pacman_X >> 3]==1'b1)
       counter_in = counter - 1;
-      if(counter==8'd0)
-        win_game = 1'b1;
-    end
-    //bitmap[pacman_Y >> 3][pacman_X >> 3]  = 1'b0;
+
+    if(counter==8'd0)
+      win_game = 1'b1;
+
     bitmap_in[pacman_Y >> 3][pacman_X >> 3]  = 1'b0;
 
     is_pellet = 1'b0;
