@@ -91,22 +91,22 @@ always_ff @ (posedge frame_clk) begin
 			end
 		else
 		if(lose_game == 1 && deathcounter<62 && dumbdeathcounter < 1)
-			deathcounter <= deathcounter+1;
+			deathcounter <= deathcounter+6'd1;
 		else if (lose_game == 1 && deathcounter==62 && dumbdeathcounter < 1)
 			begin
-				dumbdeathcounter <= dumbdeathcounter + 1;
-				deathcounter <= deathcounter + 1;
+				dumbdeathcounter <= dumbdeathcounter + 6'd1;
+				deathcounter <= deathcounter + 6'd1;
 			end
 		else if (lose_game == 1 && deathcounter == 63 && dumbdeathcounter < 1)
-			deathcounter <= deathcounter + 1;
+			deathcounter <= deathcounter + 6'd1;
 	end
 end
 
 always_comb begin
-	framecounter_in = framecounter + 1;
-	dumbcounter1_in = dumbcounter1 + 1;
-	dumbcounter2_in = dumbcounter2 + 2;
-	dumbcounter3_in = dumbcounter3 + 3;
+	framecounter_in = framecounter + 4'd1;
+	dumbcounter1_in = dumbcounter1 + 9'd1;
+	dumbcounter2_in = dumbcounter2 + 9'd2;
+	dumbcounter3_in = dumbcounter3 + 9'd3;
 
 	if (lose_game == 1)
 		begin
@@ -115,51 +115,51 @@ always_comb begin
 					begin
 						if (deathcounter >= 0 && deathcounter < 5)
 							begin
-								spriteAddr = (spriteAddrX + 276) + ((spriteAddrY + 1) << 9);
+								spriteAddr = (spriteAddrX + 18'd276) + ((spriteAddrY + 18'd1) << 9);
 							end
 						else if (deathcounter >= 5 && deathcounter < 10)
 							begin
-								spriteAddr = (spriteAddrX + 292) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+								spriteAddr = (spriteAddrX + 18'd292) + ((spriteAddrY + 18'd1) << 9); // 70, 190 for top left
 							end
 						else if (deathcounter >= 10 && deathcounter < 15)
 							begin
-								spriteAddr = (spriteAddrX + 308) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+								spriteAddr = (spriteAddrX + 18'd308) + ((spriteAddrY + 18'd1) << 9); // 70, 190 for top left
 							end
 						else if (deathcounter >= 15 && deathcounter < 20)
 							begin
-								spriteAddr = (spriteAddrX + 324) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+								spriteAddr = (spriteAddrX + 18'd324) + ((spriteAddrY + 18'd1) << 9); // 70, 190 for top left
 							end
 						else if (deathcounter >= 20 && deathcounter < 25)
 							begin
-								spriteAddr = (spriteAddrX + 340) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+								spriteAddr = (spriteAddrX + 18'd340) + ((spriteAddrY + 18'd1) << 9); // 70, 190 for top left
 							end
 						else if (deathcounter >= 25 && deathcounter < 30)
 							begin
-								spriteAddr = (spriteAddrX + 356) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+								spriteAddr = (spriteAddrX + 18'd356) + ((spriteAddrY + 18'd1) << 9); // 70, 190 for top left
 							end
 						else if (deathcounter >= 30 && deathcounter < 35)
 							begin
-								spriteAddr = (spriteAddrX + 372) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+								spriteAddr = (spriteAddrX + 18'd372) + ((spriteAddrY + 18'd1) << 9); // 70, 190 for top left
 							end
 						else if (deathcounter >= 35 && deathcounter < 40)
 							begin
-								spriteAddr = (spriteAddrX + 388) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+								spriteAddr = (spriteAddrX + 18'd388) + ((spriteAddrY + 18'd1) << 9); // 70, 190 for top left
 							end
 						else if (deathcounter >= 40 && deathcounter < 45)
 							begin
-								spriteAddr = (spriteAddrX + 404) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+								spriteAddr = (spriteAddrX + 18'd404) + ((spriteAddrY + 18'd1) << 9); // 70, 190 for top left
 							end
 						else if (deathcounter >= 45 && deathcounter < 50)
 							begin
-								spriteAddr = (spriteAddrX + 420) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+								spriteAddr = (spriteAddrX + 18'd420) + ((spriteAddrY + 18'd1) << 9); // 70, 190 for top left
 							end
 						else if (deathcounter >= 50 && deathcounter < 60)
 							begin
-								spriteAddr = (spriteAddrX + 436) + ((spriteAddrY + 1) << 9); // 70, 190 for top left
+								spriteAddr = (spriteAddrX + 18'd436) + ((spriteAddrY + 18'd1) << 9); // 70, 190 for top left
 							end
 						else
 							begin
-								spriteAddr = (spriteAddrX + 460) + ((spriteAddrY + 1) << 9);
+								spriteAddr = (spriteAddrX + 18'd460) + ((spriteAddrY + 18'd1) << 9);
 							end
 
 						mazeAddr = mazeAddrX + (mazeAddrY << 9);
@@ -190,47 +190,47 @@ always_comb begin
 						unique case (ones)
 							4'd0:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd1:
 								begin
-									spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd323) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd2:
 								begin
-									spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd331) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd3:
 								begin
-									spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd339) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd4:
 								begin
-									spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd347) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd5:
 								begin
-									spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd355) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd6:
 								begin
-									spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd363) + ((spriteAddrY + 18'd45) << 9);
 								end
 							4'd7:
 								begin
-									spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd371) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd8:
 								begin
-									spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd379) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd9:
 								begin
-									spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd387) + ((spriteAddrY + 18'd145) << 9);
 								end
 							default:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd154) << 9);
 								end
 						endcase
 						Red = color[23:16];
@@ -244,47 +244,47 @@ always_comb begin
 						unique case (tens)
 							4'd0:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd1:
 								begin
-									spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd323) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd2:
 								begin
-									spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd331) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd3:
 								begin
-									spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd339) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd4:
 								begin
-									spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd347) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd5:
 								begin
-									spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd355) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd6:
 								begin
-									spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd363) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd7:
 								begin
-									spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd371) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd8:
 								begin
-									spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd379) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd9:
 								begin
-									spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd387) + ((spriteAddrY + 18'd145) << 9);
 								end
 							default:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd154) << 9);
 								end
 						endcase
 						Red = color[23:16];
@@ -298,47 +298,47 @@ always_comb begin
 						unique case (hunds)
 							4'd0:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd1:
 								begin
-									spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd323) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd2:
 								begin
-									spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd331) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd3:
 								begin
-									spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd339) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd4:
 								begin
-									spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd347) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd5:
 								begin
-									spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd355) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd6:
 								begin
-									spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd363) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd7:
 								begin
-									spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd371) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd8:
 								begin
-									spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd379) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd9:
 								begin
-									spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd387) + ((spriteAddrY + 18'd145) << 9);
 								end
 							default:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd154) << 9);
 								end
 						endcase
 						Red = color[23:16];
@@ -352,47 +352,47 @@ always_comb begin
 						unique case (thous)
 							4'd0:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd1:
 								begin
-									spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd323) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd2:
 								begin
-									spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd331) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd3:
 								begin
-									spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd339) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd4:
 								begin
-									spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd347) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd5:
 								begin
-									spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd355) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd6:
 								begin
-									spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd363) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd7:
 								begin
-									spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd371) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd8:
 								begin
-									spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd379) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd9:
 								begin
-									spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd387) + ((spriteAddrY + 18'd145) << 9);
 								end
 							default:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd154) << 9);
 								end
 						endcase
 						Red = color[23:16];
@@ -406,47 +406,47 @@ always_comb begin
 						unique case (tenthous)
 							4'd0:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd1:
 								begin
-									spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd323) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd2:
 								begin
-									spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd331) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd3:
 								begin
-									spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd339) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd4:
 								begin
-									spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd347) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd5:
 								begin
-									spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd355) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd6:
 								begin
-									spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd363) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd7:
 								begin
-									spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd371) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd8:
 								begin
-									spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd379) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd9:
 								begin
-									spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd387) + ((spriteAddrY + 18'd145) << 9);
 								end
 							default:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd154) << 9);
 								end
 						endcase
 						Red = color[23:16];
@@ -483,7 +483,7 @@ always_comb begin
 		// else begin
 			mazeAddr = 0;
 			if (218<DrawX && DrawX<420 && 165<DrawY && DrawY<315) begin
-				spriteAddr = (DrawX-219) + ((DrawY-166)<<8);
+				spriteAddr = (DrawX-18'd219) + ((DrawY-18'd166)<<8);
 				Red = color3[23:16];
 				Green = color3[15:8];
 				Blue = color3[7:0];
@@ -497,47 +497,47 @@ always_comb begin
 							unique case (ones)
 								4'd0:
 									begin
-										spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd1:
 									begin
-										spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd323) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd2:
 									begin
-										spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd331) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd3:
 									begin
-										spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd339) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd4:
 									begin
-										spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd347) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd5:
 									begin
-										spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd355) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd6:
 									begin
-										spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd363) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd7:
 									begin
-										spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd371) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd8:
 									begin
-										spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd379) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd9:
 									begin
-										spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd387) + ((spriteAddrY + 18'd145) << 9);
 									end
 								default:
 									begin
-										spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+										spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd154) << 9);
 									end
 							endcase
 							Red = color[23:16];
@@ -551,47 +551,47 @@ always_comb begin
 							unique case (tens)
 								4'd0:
 									begin
-										spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd1:
 									begin
-										spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd323) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd2:
 									begin
-										spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd331) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd3:
 									begin
-										spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd339) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd4:
 									begin
-										spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd347) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd5:
 									begin
-										spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd355) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd6:
 									begin
-										spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd363) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd7:
 									begin
-										spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd371) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd8:
 									begin
-										spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd379) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd9:
 									begin
-										spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd387) + ((spriteAddrY + 18'd145) << 9);
 									end
 								default:
 									begin
-										spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+										spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd154) << 9);
 									end
 							endcase
 							Red = color[23:16];
@@ -605,47 +605,47 @@ always_comb begin
 							unique case (hunds)
 								4'd0:
 									begin
-										spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd1:
 									begin
-										spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd323) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd2:
 									begin
-										spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd331) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd3:
 									begin
-										spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd339) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd4:
 									begin
-										spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd347) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd5:
 									begin
-										spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd355) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd6:
 									begin
-										spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd363) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd7:
 									begin
-										spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd371) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd8:
 									begin
-										spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd379) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd9:
 									begin
-										spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd387) + ((spriteAddrY + 18'd145) << 9);
 									end
 								default:
 									begin
-										spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+										spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd154) << 9);
 									end
 							endcase
 							Red = color[23:16];
@@ -659,47 +659,47 @@ always_comb begin
 							unique case (thous)
 								4'd0:
 									begin
-										spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd1:
 									begin
-										spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd323) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd2:
 									begin
-										spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd331) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd3:
 									begin
-										spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd339) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd4:
 									begin
-										spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd347) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd5:
 									begin
-										spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd355) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd6:
 									begin
-										spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd363) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd7:
 									begin
-										spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd371) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd8:
 									begin
-										spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd379) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd9:
 									begin
-										spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd387) + ((spriteAddrY + 18'd145) << 9);
 									end
 								default:
 									begin
-										spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+										spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd154) << 9);
 									end
 							endcase
 							Red = color[23:16];
@@ -713,47 +713,47 @@ always_comb begin
 							unique case (tenthous)
 								4'd0:
 									begin
-										spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd1:
 									begin
-										spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd323) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd2:
 									begin
-										spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd331) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd3:
 									begin
-										spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd339) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd4:
 									begin
-										spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd347) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd5:
 									begin
-										spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd355) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd6:
 									begin
-										spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd363) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd7:
 									begin
-										spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd371) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd8:
 									begin
-										spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd379) + ((spriteAddrY + 18'd145) << 9);
 									end
 								4'd9:
 									begin
-										spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+										spriteAddr = (spriteAddrX + 18'd387) + ((spriteAddrY + 18'd145) << 9);
 									end
 								default:
 									begin
-										spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+										spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd154) << 9);
 									end
 							endcase
 							Red = color[23:16];
@@ -778,35 +778,35 @@ always_comb begin
 					begin
 						mazeAddr = mazeAddrX + (mazeAddrY << 9);
 						if (framecounter >= 0 && framecounter <= 3)
-								spriteAddr = (spriteAddrX + 261) + ((spriteAddrY + 0) << 9); // 34, 2 for top left
+								spriteAddr = (spriteAddrX + 18'd261) + ((spriteAddrY + 18'd0) << 9); // 34, 2 for top left
 						else if (framecounter >= 8 && framecounter <= 12)
 							begin
 								unique case (direction)
 									2'd0: // going up
-										spriteAddr = (spriteAddrX + 229) + ((spriteAddrY + 31) << 9); // 70, 190 for top left
+										spriteAddr = (spriteAddrX + 18'd229) + ((spriteAddrY + 18'd31) << 9); // 70, 190 for top left
 									2'd1: // going left
-										spriteAddr = (spriteAddrX + 228) + ((spriteAddrY + 16) << 9); // 72, 77 for top left
+										spriteAddr = (spriteAddrX + 18'd228) + ((spriteAddrY + 18'd16) << 9); // 72, 77 for top left
 									2'd2: // going down
-										spriteAddr = (spriteAddrX + 229) + ((spriteAddrY + 49) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd229) + ((spriteAddrY + 18'd49) << 9); // 34, 2 for top left
 									2'd3: // going right
-										spriteAddr = (spriteAddrX + 229) + ((spriteAddrY + 0) << 9); // 107, 40 for top left
+										spriteAddr = (spriteAddrX + 18'd229) + ((spriteAddrY + 18'd0) << 9); // 107, 40 for top left
 									default:
-										spriteAddr = (spriteAddrX + 261) + ((spriteAddrY + 0) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd261) + ((spriteAddrY + 18'd0) << 9); // 34, 2 for top left
 									endcase
 							end
 						else
 							begin
 								unique case (direction)
 									2'd0: // going up
-										spriteAddr = (spriteAddrX + 245) + ((spriteAddrY + 32) << 9); // 70, 190 for top left
+										spriteAddr = (spriteAddrX + 18'd245) + ((spriteAddrY + 18'd32) << 9); // 70, 190 for top left
 									2'd1: // going left
-										spriteAddr = (spriteAddrX + 245) + ((spriteAddrY + 16) << 9); // 72, 77 for top left
+										spriteAddr = (spriteAddrX + 18'd245) + ((spriteAddrY + 18'd16) << 9); // 72, 77 for top left
 									2'd2: // going down
-										spriteAddr = (spriteAddrX + 245) + ((spriteAddrY + 47) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd245) + ((spriteAddrY + 18'd47) << 9); // 34, 2 for top left
 									2'd3: // going right
-										spriteAddr = (spriteAddrX + 245) + ((spriteAddrY + 0) << 9); // 107, 40 for top left
+										spriteAddr = (spriteAddrX + 18'd245) + ((spriteAddrY + 18'd0) << 9); // 107, 40 for top left
 									default:
-										spriteAddr = (spriteAddrX + 261) + ((spriteAddrY + 0) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd261) + ((spriteAddrY + 18'd0) << 9); // 34, 2 for top left
 								endcase
 							end
 
@@ -838,30 +838,30 @@ always_comb begin
 							begin
 								unique case (direction)
 									2'd0: // going up
-										spriteAddr = (spriteAddrX + 309) + ((spriteAddrY + 65) << 9); // 70, 190 for top left
+										spriteAddr = (spriteAddrX + 18'd309) + ((spriteAddrY + 18'd65) << 9); // 70, 190 for top left
 									2'd1: // going left
-										spriteAddr = (spriteAddrX + 277) + ((spriteAddrY + 65) << 9); // 72, 77 for top left
+										spriteAddr = (spriteAddrX + 18'd277) + ((spriteAddrY + 18'd65) << 9); // 72, 77 for top left
 									2'd2: // going down
-										spriteAddr = (spriteAddrX + 341) + ((spriteAddrY + 65) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd341) + ((spriteAddrY + 18'd65) << 9); // 34, 2 for top left
 									2'd3: // going right
-										spriteAddr = (spriteAddrX + 245) + ((spriteAddrY + 65) << 9); // 107, 40 for top left
+										spriteAddr = (spriteAddrX + 18'd245) + ((spriteAddrY + 18'd65) << 9); // 107, 40 for top left
 									default:
-										spriteAddr = (spriteAddrX + 309) + ((spriteAddrY + 65) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd309) + ((spriteAddrY + 18'd65) << 9); // 34, 2 for top left
 									endcase
 							end
 						else
 							begin
 								unique case (direction)
 									2'd0: // going up
-										spriteAddr = (spriteAddrX + 293) + ((spriteAddrY + 65) << 9); // 70, 190 for top left
+										spriteAddr = (spriteAddrX + 18'd293) + ((spriteAddrY + 18'd65) << 9); // 70, 190 for top left
 									2'd1: // going left
-										spriteAddr = (spriteAddrX + 261) + ((spriteAddrY + 65) << 9); // 72, 77 for top left
+										spriteAddr = (spriteAddrX + 18'd261) + ((spriteAddrY + 18'd65) << 9); // 72, 77 for top left
 									2'd2: // going down
-										spriteAddr = (spriteAddrX + 325) + ((spriteAddrY + 65) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd325) + ((spriteAddrY + 18'd65) << 9); // 34, 2 for top left
 									2'd3: // going right
-										spriteAddr = (spriteAddrX + 229) + ((spriteAddrY + 65) << 9); // 107, 40 for top left
+										spriteAddr = (spriteAddrX + 18'd229) + ((spriteAddrY + 18'd65) << 9); // 107, 40 for top left
 									default:
-										spriteAddr = (spriteAddrX + 293) + ((spriteAddrY + 65) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd293) + ((spriteAddrY + 18'd65) << 9); // 34, 2 for top left
 								endcase
 							end
 
@@ -885,30 +885,30 @@ always_comb begin
 							begin
 								unique case (direction)
 									2'd0: // going up
-										spriteAddr = (spriteAddrX + 309) + ((spriteAddrY + 81) << 9); // 70, 190 for top left
+										spriteAddr = (spriteAddrX + 18'd309) + ((spriteAddrY + 18'd81) << 9); // 70, 190 for top left
 									2'd1: // going left
-										spriteAddr = (spriteAddrX + 277) + ((spriteAddrY + 81) << 9); // 72, 77 for top left
+										spriteAddr = (spriteAddrX + 18'd277) + ((spriteAddrY + 18'd81) << 9); // 72, 77 for top left
 									2'd2: // going down
-										spriteAddr = (spriteAddrX + 341) + ((spriteAddrY + 81) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd341) + ((spriteAddrY + 18'd81) << 9); // 34, 2 for top left
 									2'd3: // going right
-										spriteAddr = (spriteAddrX + 245) + ((spriteAddrY + 81) << 9); // 107, 40 for top left
+										spriteAddr = (spriteAddrX + 18'd245) + ((spriteAddrY + 18'd81) << 9); // 107, 40 for top left
 									default:
-										spriteAddr = (spriteAddrX + 309) + ((spriteAddrY + 81) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd309) + ((spriteAddrY + 18'd81) << 9); // 34, 2 for top left
 									endcase
 							end
 						else
 							begin
 								unique case (direction)
 									2'd0: // going up
-										spriteAddr = (spriteAddrX + 293) + ((spriteAddrY + 81) << 9); // 70, 190 for top left
+										spriteAddr = (spriteAddrX + 18'd293) + ((spriteAddrY + 18'd81) << 9); // 70, 190 for top left
 									2'd1: // going left
-										spriteAddr = (spriteAddrX + 261) + ((spriteAddrY + 81) << 9); // 72, 77 for top left
+										spriteAddr = (spriteAddrX + 18'd261) + ((spriteAddrY + 18'd81) << 9); // 72, 77 for top left
 									2'd2: // going down
-										spriteAddr = (spriteAddrX + 325) + ((spriteAddrY + 81) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd325) + ((spriteAddrY + 18'd81) << 9); // 34, 2 for top left
 									2'd3: // going right
-										spriteAddr = (spriteAddrX + 229) + ((spriteAddrY + 81) << 9); // 107, 40 for top left
+										spriteAddr = (spriteAddrX + 18'd229) + ((spriteAddrY + 18'd81) << 9); // 107, 40 for top left
 									default:
-										spriteAddr = (spriteAddrX + 293) + ((spriteAddrY + 81) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd293) + ((spriteAddrY + 18'd81) << 9); // 34, 2 for top left
 								endcase
 							end
 
@@ -932,30 +932,30 @@ always_comb begin
 							begin
 								unique case (direction)
 									2'd0: // going up
-										spriteAddr = (spriteAddrX + 309) + ((spriteAddrY + 97) << 9); // 70, 190 for top left
+										spriteAddr = (spriteAddrX + 18'd309) + ((spriteAddrY + 18'd97) << 9); // 70, 190 for top left
 									2'd1: // going left
-										spriteAddr = (spriteAddrX + 277) + ((spriteAddrY + 97) << 9); // 72, 77 for top left
+										spriteAddr = (spriteAddrX + 18'd277) + ((spriteAddrY + 18'd97) << 9); // 72, 77 for top left
 									2'd2: // going down
-										spriteAddr = (spriteAddrX + 341) + ((spriteAddrY + 97) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd341) + ((spriteAddrY + 18'd97) << 9); // 34, 2 for top left
 									2'd3: // going right
-										spriteAddr = (spriteAddrX + 245) + ((spriteAddrY + 97) << 9); // 107, 40 for top left
+										spriteAddr = (spriteAddrX + 18'd245) + ((spriteAddrY + 18'd97) << 9); // 107, 40 for top left
 									default:
-										spriteAddr = (spriteAddrX + 309) + ((spriteAddrY + 97) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd309) + ((spriteAddrY + 18'd97) << 9); // 34, 2 for top left
 									endcase
 							end
 						else
 							begin
 								unique case (direction)
 									2'd0: // going up
-										spriteAddr = (spriteAddrX + 293) + ((spriteAddrY + 97) << 9); // 70, 190 for top left
+										spriteAddr = (spriteAddrX + 18'd293) + ((spriteAddrY + 18'd97) << 9); // 70, 190 for top left
 									2'd1: // going left
-										spriteAddr = (spriteAddrX + 261) + ((spriteAddrY + 97) << 9); // 72, 77 for top left
+										spriteAddr = (spriteAddrX + 18'd261) + ((spriteAddrY + 18'd97) << 9); // 72, 77 for top left
 									2'd2: // going down
-										spriteAddr = (spriteAddrX + 325) + ((spriteAddrY + 97) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd325) + ((spriteAddrY + 18'd97) << 9); // 34, 2 for top left
 									2'd3: // going right
-										spriteAddr = (spriteAddrX + 229) + ((spriteAddrY + 97) << 9); // 107, 40 for top left
+										spriteAddr = (spriteAddrX + 18'd229) + ((spriteAddrY + 18'd97) << 9); // 107, 40 for top left
 									default:
-										spriteAddr = (spriteAddrX + 293) + ((spriteAddrY + 97) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd293) + ((spriteAddrY + 18'd97) << 9); // 34, 2 for top left
 								endcase
 							end
 
@@ -979,30 +979,30 @@ always_comb begin
 							begin
 								unique case (direction)
 									2'd0: // going up
-										spriteAddr = (spriteAddrX + 309) + ((spriteAddrY + 113) << 9); // 70, 190 for top left
+										spriteAddr = (spriteAddrX + 18'd309) + ((spriteAddrY + 18'd113) << 9); // 70, 190 for top left
 									2'd1: // going left
-										spriteAddr = (spriteAddrX + 277) + ((spriteAddrY + 113) << 9); // 72, 77 for top left
+										spriteAddr = (spriteAddrX + 18'd277) + ((spriteAddrY + 18'd113) << 9); // 72, 77 for top left
 									2'd2: // going down
-										spriteAddr = (spriteAddrX + 341) + ((spriteAddrY + 113) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd341) + ((spriteAddrY + 18'd113) << 9); // 34, 2 for top left
 									2'd3: // going right
-										spriteAddr = (spriteAddrX + 245) + ((spriteAddrY + 113) << 9); // 107, 40 for top left
+										spriteAddr = (spriteAddrX + 18'd245) + ((spriteAddrY + 18'd113) << 9); // 107, 40 for top left
 									default:
-										spriteAddr = (spriteAddrX + 309) + ((spriteAddrY + 113) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd309) + ((spriteAddrY + 18'd113) << 9); // 34, 2 for top left
 									endcase
 							end
 						else
 							begin
 								unique case (direction)
 									2'd0: // going up
-										spriteAddr = (spriteAddrX + 293) + ((spriteAddrY + 113) << 9); // 70, 190 for top left
+										spriteAddr = (spriteAddrX + 18'd293) + ((spriteAddrY + 18'd113) << 9); // 70, 190 for top left
 									2'd1: // going left
-										spriteAddr = (spriteAddrX + 261) + ((spriteAddrY + 113) << 9); // 72, 77 for top left
+										spriteAddr = (spriteAddrX + 18'd261) + ((spriteAddrY + 18'd113) << 9); // 72, 77 for top left
 									2'd2: // going down
-										spriteAddr = (spriteAddrX + 325) + ((spriteAddrY + 113) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd325) + ((spriteAddrY + 18'd113) << 9); // 34, 2 for top left
 									2'd3: // going right
-										spriteAddr = (spriteAddrX + 229) + ((spriteAddrY + 113) << 9); // 107, 40 for top left
+										spriteAddr = (spriteAddrX + 18'd229) + ((spriteAddrY + 18'd113) << 9); // 107, 40 for top left
 									default:
-										spriteAddr = (spriteAddrX + 293) + ((spriteAddrY + 113) << 9); // 34, 2 for top left
+										spriteAddr = (spriteAddrX + 18'd293) + ((spriteAddrY + 18'd113) << 9); // 34, 2 for top left
 								endcase
 							end
 
@@ -1027,6 +1027,23 @@ always_comb begin
 						Green = 8'hb9;
 						Blue = 8'hb0;
 					end
+				7'b0001111: // 1111 = cherry
+					begin
+						mazeAddr = mazeAddrX + (mazeAddrY << 9);
+						spriteAddr = (spriteAddrX + 18'd262) + ((spriteAddrY + 18'd50) << 9);
+						if (color == 24'h000000)
+							begin
+								Red = color2[23:16];
+								Green = color2[15:8];
+								Blue = color2[7:0];
+							end
+						else
+							begin
+								Red = color[23:16];
+								Green = color[15:8];
+								Blue = color[7:0];
+							end
+					end
 				7'b0001000: // ones
 					begin
 						spriteAddr = 0;
@@ -1034,47 +1051,47 @@ always_comb begin
 						unique case (ones)
 							4'd0:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd1:
 								begin
-									spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd323) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd2:
 								begin
-									spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd331) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd3:
 								begin
-									spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd339) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd4:
 								begin
-									spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd347) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd5:
 								begin
-									spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd355) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd6:
 								begin
-									spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd363) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd7:
 								begin
-									spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd371) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd8:
 								begin
-									spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd379) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd9:
 								begin
-									spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd387) + ((spriteAddrY + 18'd145) << 9);
 								end
 							default:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd154) << 9);
 								end
 						endcase
 						Red = color[23:16];
@@ -1088,47 +1105,47 @@ always_comb begin
 						unique case (tens)
 							4'd0:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd1:
 								begin
-									spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd323) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd2:
 								begin
-									spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd331) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd3:
 								begin
-									spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd339) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd4:
 								begin
-									spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd347) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd5:
 								begin
-									spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd355) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd6:
 								begin
-									spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd363) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd7:
 								begin
-									spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd371) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd8:
 								begin
-									spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd379) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd9:
 								begin
-									spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd387) + ((spriteAddrY + 18'd145) << 9);
 								end
 							default:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd154) << 9);
 								end
 						endcase
 						Red = color[23:16];
@@ -1142,47 +1159,47 @@ always_comb begin
 						unique case (hunds)
 							4'd0:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd1:
 								begin
-									spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd323) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd2:
 								begin
-									spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd331) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd3:
 								begin
-									spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd339) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd4:
 								begin
-									spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd347) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd5:
 								begin
-									spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd355) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd6:
 								begin
-									spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd363) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd7:
 								begin
-									spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd371) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd8:
 								begin
-									spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd379) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd9:
 								begin
-									spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd387) + ((spriteAddrY + 18'd145) << 9);
 								end
 							default:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd154) << 9);
 								end
 						endcase
 						Red = color[23:16];
@@ -1196,47 +1213,47 @@ always_comb begin
 						unique case (thous)
 							4'd0:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd1:
 								begin
-									spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd323) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd2:
 								begin
-									spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd331) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd3:
 								begin
-									spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd339) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd4:
 								begin
-									spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd347) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd5:
 								begin
-									spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd355) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd6:
 								begin
-									spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd363) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd7:
 								begin
-									spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd371) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd8:
 								begin
-									spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd379) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd9:
 								begin
-									spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd387) + ((spriteAddrY + 18'd145) << 9);
 								end
 							default:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd154) << 9);
 								end
 						endcase
 						Red = color[23:16];
@@ -1250,47 +1267,47 @@ always_comb begin
 						unique case (tenthous)
 							4'd0:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd1:
 								begin
-									spriteAddr = (spriteAddrX + 323) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd323) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd2:
 								begin
-									spriteAddr = (spriteAddrX + 331) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd331) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd3:
 								begin
-									spriteAddr = (spriteAddrX + 339) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd339) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd4:
 								begin
-									spriteAddr = (spriteAddrX + 347) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd347) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd5:
 								begin
-									spriteAddr = (spriteAddrX + 355) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd355) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd6:
 								begin
-									spriteAddr = (spriteAddrX + 363) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd363) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd7:
 								begin
-									spriteAddr = (spriteAddrX + 371) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd371) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd8:
 								begin
-									spriteAddr = (spriteAddrX + 379) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd379) + ((spriteAddrY + 18'd145) << 9);
 								end
 							4'd9:
 								begin
-									spriteAddr = (spriteAddrX + 387) + ((spriteAddrY + 145) << 9);
+									spriteAddr = (spriteAddrX + 18'd387) + ((spriteAddrY + 18'd145) << 9);
 								end
 							default:
 								begin
-									spriteAddr = (spriteAddrX + 315) + ((spriteAddrY + 154) << 9);
+									spriteAddr = (spriteAddrX + 18'd315) + ((spriteAddrY + 18'd154) << 9);
 								end
 						endcase
 						Red = color[23:16];
@@ -1310,7 +1327,7 @@ always_comb begin
 		end
 
 	if (278<=DrawX && DrawX<=319 && 107<=DrawY && DrawY<=115) begin
-		spriteAddr = (DrawX-278+370) + ((DrawY-107+176)<<9);
+		spriteAddr = (DrawX-18'd278+18'd370) + ((DrawY-18'd107+18'd176)<<9);
 		mazeAddr = 0;
 		Red = color[23:16];
 		Green = color[15:8];

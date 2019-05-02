@@ -4,6 +4,7 @@ module pellets
 		input [9:0] pacman_X, pacman_Y,
     input [9:0] DrawX, DrawY,
     output logic is_pellet,
+    output logic [7:0] pellet_count,
     output logic win_game,
     output logic [3:0] ones,
     output logic [3:0] tens,
@@ -21,6 +22,7 @@ logic [7:0] counter, counter_in;
 logic [3:0] onecounter, tencounter, hundcounter, thoucounter, tenthoucounter;
 logic [3:0] onecounter_in, tencounter_in, hundcounter_in, thoucounter_in, tenthoucounter_in;
 
+assign pellet_count = counter;
 assign ones = onecounter;
 assign tens = tencounter;
 assign hunds = hundcounter;
